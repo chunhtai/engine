@@ -34,6 +34,7 @@ def main():
     'third_party/android_tools/sdk/platforms/android-28/android.jar',
     'base/android/java/src',
     'third_party/jsr-305/src/ri/src/main/java',
+    '/Users/chtai/develop/junit/junit.jar'
   ]
   packages = [
     'io.flutter.app',
