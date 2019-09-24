@@ -5,6 +5,7 @@
 assert(is_win)
 
 import("$flutter_root/shell/platform/glfw/config.gni")
+import("$flutter_root/testing/testing.gni")
 
 _public_headers = [ "public/flutter_windows.h" ]
 
@@ -98,6 +99,63 @@ shared_library("flutter_windows") {
   ]
 
   public_configs = [ "$flutter_root:config" ]
+}
+
+test_fixtures("flutter_windows_fixtures") {
+  fixtures = []
+}
+
+executable("flutter_windows_unittests") {
+  testonly = true
+
+  sources = [
+    "win32_window_unittests.cc",
+    "testing/win32_flutter_window_test.h",
+    "testing/win32_flutter_window_test.cc",
+    # source code.
+    "angle_surface_manager.cc",
+    "angle_surface_manager.h",
+    "flutter_windows.cc",
+    "key_event_handler.cc",
+    "key_event_handler.h",
+    "keyboard_hook_handler.h",
+    "platform_handler.cc",
+    "platform_handler.h",
+    "text_input_plugin.cc",
+    "text_input_plugin.h",
+    "win32_dpi_helper.cc",
+    "win32_dpi_helper.h",
+    "win32_flutter_window.cc",
+    "win32_flutter_window.h",
+    "win32_window.cc",
+    "win32_window.h",
+    "window_state.h",
+  ]
+
+  defines = [ "USE_RAPID_JSON" ]
+
+  configs += [
+    "$flutter_root/shell/platform/common/cpp:desktop_library_implementation",
+    "//third_party/angle:gl_prototypes",
+  ]
+
+  public_configs = [ ":relative_angle_headers" ]
+
+  deps = [
+    ":flutter_windows_headers",
+    "$flutter_root/shell/platform/common/cpp:common_cpp",
+    "$flutter_root/shell/platform/common/cpp/client_wrapper:client_wrapper",
+    "$flutter_root/shell/platform/embedder:embedder_with_symbol_prefix",
+    "$flutter_root/shell/platform/windows/client_wrapper:client_wrapper_windows",
+    "//third_party/angle:libEGL_static",  # the order of libEGL_static and libGLESv2_static is important.. if reversed, will cause a linker error DllMain already defined in LIBCMTD.lib
+    "//third_party/angle:libGLESv2_static",
+    "//third_party/rapidjson",
+    ":flutter_windows_fixtures",
+    "$flutter_root/testing",
+    # TODO: Consider refactoring flutter_root/testing so that there's a testing
+    # target that doesn't require a Dart runtime to be linked in.
+    "//third_party/dart/runtime:libdart_jit",
+  ]
 }
 
 shared_library("flutter_windows_glfw") {
