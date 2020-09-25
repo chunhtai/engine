@@ -22,11 +22,13 @@ namespace flutter_runner_test {
 class AccessibilityBridgeTestDelegate
     : public flutter_runner::AccessibilityBridge::Delegate {
  public:
+  float view_pixel_ratio = 1.f;
   void SetSemanticsEnabled(bool enabled) override { enabled_ = enabled; }
   void DispatchSemanticsAction(int32_t node_id,
                                flutter::SemanticsAction action) override {
     actions.push_back(std::make_pair(node_id, action));
   }
+  float GetViewPixelRatio() override { return view_pixel_ratio; }
 
   bool enabled() { return enabled_; }
   std::vector<std::pair<int32_t, flutter::SemanticsAction>> actions;
@@ -112,9 +114,10 @@ TEST_F(AccessibilityBridgeTest, DeletesChildrenTransitively) {
   RunLoopUntilIdle();
 
   EXPECT_EQ(0, semantics_manager_.DeleteCount());
-  EXPECT_EQ(1, semantics_manager_.UpdateCount());
+  EXPECT_EQ(2, semantics_manager_.UpdateCount());
   EXPECT_EQ(1, semantics_manager_.CommitCount());
-  EXPECT_EQ(3U, semantics_manager_.LastUpdatedNodes().size());
+  // The root node is in the first update.
+  EXPECT_EQ(2U, semantics_manager_.LastUpdatedNodes().size());
   EXPECT_EQ(0U, semantics_manager_.LastDeletedNodeIds().size());
   EXPECT_FALSE(semantics_manager_.DeleteOverflowed());
   EXPECT_FALSE(semantics_manager_.UpdateOverflowed());
@@ -128,7 +131,7 @@ TEST_F(AccessibilityBridgeTest, DeletesChildrenTransitively) {
   RunLoopUntilIdle();
 
   EXPECT_EQ(1, semantics_manager_.DeleteCount());
-  EXPECT_EQ(2, semantics_manager_.UpdateCount());
+  EXPECT_EQ(3, semantics_manager_.UpdateCount());
   EXPECT_EQ(2, semantics_manager_.CommitCount());
   EXPECT_EQ(1U, semantics_manager_.LastUpdatedNodes().size());
   ASSERT_EQ(std::vector<uint32_t>({1, 2}),
@@ -203,6 +206,21 @@ TEST_F(AccessibilityBridgeTest, PopulatesSelectedState) {
 
   EXPECT_FALSE(semantics_manager_.DeleteOverflowed());
   EXPECT_FALSE(semantics_manager_.UpdateOverflowed());
+}
+
+TEST_F(AccessibilityBridgeTest, ApplyViewPixelRatioToRoot) {
+  accessibility_delegate_.view_pixel_ratio = 1.25f;
+  flutter::SemanticsNode node0;
+  node0.id = 0;
+  node0.flags = static_cast<int>(flutter::SemanticsFlags::kIsSelected);
+
+  accessibility_bridge_->AddSemanticsNodeUpdate({{0, node0}});
+  RunLoopUntilIdle();
+  const auto& fuchsia_node = semantics_manager_.LastUpdatedNodes().at(0u);
+  EXPECT_EQ(fuchsia_node.node_id(), static_cast<unsigned int>(node0.id));
+  EXPECT_EQ(fuchsia_node.transform().matrix[0], 0.8f);
+  EXPECT_EQ(fuchsia_node.transform().matrix[5], 0.8f);
+  EXPECT_EQ(fuchsia_node.transform().matrix[10], 1.f);
 }
 
 TEST_F(AccessibilityBridgeTest, PopulatesHiddenState) {
@@ -292,9 +310,10 @@ TEST_F(AccessibilityBridgeTest, TruncatesLargeLabel) {
 
   // Nothing to delete, but we should have broken
   EXPECT_EQ(0, semantics_manager_.DeleteCount());
-  EXPECT_EQ(1, semantics_manager_.UpdateCount());
+  EXPECT_EQ(2, semantics_manager_.UpdateCount());
   EXPECT_EQ(1, semantics_manager_.CommitCount());
-  EXPECT_EQ(3U, semantics_manager_.LastUpdatedNodes().size());
+  // The root node is in the first update.
+  EXPECT_EQ(2U, semantics_manager_.LastUpdatedNodes().size());
   auto trimmed_node =
       std::find_if(semantics_manager_.LastUpdatedNodes().begin(),
                    semantics_manager_.LastUpdatedNodes().end(),
@@ -335,9 +354,10 @@ TEST_F(AccessibilityBridgeTest, TruncatesLargeValue) {
   RunLoopUntilIdle();
 
   EXPECT_EQ(0, semantics_manager_.DeleteCount());
-  EXPECT_EQ(1, semantics_manager_.UpdateCount());
+  EXPECT_EQ(2, semantics_manager_.UpdateCount());
   EXPECT_EQ(1, semantics_manager_.CommitCount());
-  EXPECT_EQ(3U, semantics_manager_.LastUpdatedNodes().size());
+  // The root node is in the first update.
+  EXPECT_EQ(2U, semantics_manager_.LastUpdatedNodes().size());
   auto trimmed_node =
       std::find_if(semantics_manager_.LastUpdatedNodes().begin(),
                    semantics_manager_.LastUpdatedNodes().end(),
@@ -391,11 +411,12 @@ TEST_F(AccessibilityBridgeTest, SplitsLargeUpdates) {
   });
   RunLoopUntilIdle();
 
-  // Nothing to delete, but we should have broken into groups (4, 3, 2), (1, 0)
+  // Nothing to delete, but we should have broken into groups (4, 3, 2), (0)
+  // (1)
   EXPECT_EQ(0, semantics_manager_.DeleteCount());
-  EXPECT_EQ(2, semantics_manager_.UpdateCount());
+  EXPECT_EQ(3, semantics_manager_.UpdateCount());
   EXPECT_EQ(1, semantics_manager_.CommitCount());
-  EXPECT_EQ(2U, semantics_manager_.LastUpdatedNodes().size());
+  EXPECT_EQ(1U, semantics_manager_.LastUpdatedNodes().size());
   EXPECT_FALSE(semantics_manager_.DeleteOverflowed());
   EXPECT_FALSE(semantics_manager_.UpdateOverflowed());
 }
@@ -430,7 +451,8 @@ TEST_F(AccessibilityBridgeTest, HandlesCycles) {
   RunLoopUntilIdle();
 
   EXPECT_EQ(0, semantics_manager_.DeleteCount());
-  EXPECT_EQ(2, semantics_manager_.UpdateCount());
+  // 1 + (2 new updates).
+  EXPECT_EQ(3, semantics_manager_.UpdateCount());
   EXPECT_EQ(2, semantics_manager_.CommitCount());
   EXPECT_FALSE(semantics_manager_.DeleteOverflowed());
   EXPECT_FALSE(semantics_manager_.UpdateOverflowed());
