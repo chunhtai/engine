@@ -40,7 +40,7 @@ void AccessibilityBridge::AddFlutterSemanticsCustomActionUpdate(const FlutterSem
 }
 
 void AccessibilityBridge::CommitUpdates() {
-  AXTreeUpdate update;
+  AXTreeUpdate update{ .tree_data = GetAXTree()->data() };
   // Figure out update order, AXTree only accepts update in tree order, where
   // parent node must come before the child node in AXTreeUpdate.nodes.
   // We start with picking a random node and turn the entire subtree into a
@@ -60,9 +60,7 @@ void AccessibilityBridge::CommitUpdates() {
 
   for (size_t i = results.size(); i > 0; i--) {
     for (SemanticsNode node : results[i - 1]) {
-      AXNodeData node_data;
-      ConvertFluterUpdateToAXNodeData(node, node_data);
-      update.nodes.push_back(node_data);
+      ConvertFluterUpdate(node, update);
     }
   }
 
@@ -181,7 +179,8 @@ void AccessibilityBridge::GetSubTreeList(SemanticsNode target, std::vector<Seman
   }
 }
 
-void AccessibilityBridge::ConvertFluterUpdateToAXNodeData(const SemanticsNode& node, AXNodeData& node_data) {
+void AccessibilityBridge::ConvertFluterUpdate(const SemanticsNode& node, AXTreeUpdate& tree_update) {
+  AXNodeData node_data;
   node_data.id = node.id;
   SetRoleFromFlutterUpdate(node_data, node);
   SetStateFromFlutterUpdate(node_data, node);
@@ -212,6 +211,8 @@ void AccessibilityBridge::ConvertFluterUpdateToAXNodeData(const SemanticsNode& n
   for (auto child: node.children_in_traversal_order) {
     node_data.child_ids.push_back(child);
   }
+  SetTreeData(node, tree_update);
+  tree_update.nodes.push_back(node_data);
 }
 
 void AccessibilityBridge::SetRoleFromFlutterUpdate(AXNodeData& node_data, const SemanticsNode& node) {
@@ -379,6 +380,39 @@ void AccessibilityBridge::SetStringListAttributesFromFlutterUpdate(AXNodeData& n
 void AccessibilityBridge::SetNameFromFlutterUpdate(AXNodeData& node_data, const SemanticsNode& node) {
   std::string name = node.label;
   node_data.SetName(name);
+}
+
+void AccessibilityBridge::SetTreeData(const SemanticsNode& node, AXTreeUpdate& tree_update) {
+  FlutterSemanticsFlag flags = node.flags;
+  // Set selection if:
+  // 1. this text field has a valid selection
+  // 2. this text field doesn't have a valid selection but had selection stored
+  //    in the tree.
+  if (flags & FlutterSemanticsFlag::kFlutterSemanticsFlagIsTextField) {
+    if (node.text_selection_base != -1) {
+      tree_update.tree_data.sel_anchor_object_id = node.id;
+      tree_update.tree_data.sel_anchor_offset = node.text_selection_base;
+      tree_update.tree_data.sel_focus_object_id = node.id;
+      tree_update.tree_data.sel_focus_offset = node.text_selection_extent;
+      tree_update.has_tree_data = true;
+    } else if (tree_update.tree_data.sel_anchor_object_id == node.id) {
+      tree_update.tree_data.sel_anchor_object_id = AXNode::kInvalidAXID;
+      tree_update.tree_data.sel_anchor_offset = -1;
+      tree_update.tree_data.sel_focus_object_id = AXNode::kInvalidAXID;
+      tree_update.tree_data.sel_focus_offset = -1;
+      tree_update.has_tree_data = true;
+    }
+  }
+
+  if (flags & FlutterSemanticsFlag::kFlutterSemanticsFlagIsFocused &&
+      tree_update.tree_data.focus_id != node.id) {
+    tree_update.tree_data.focus_id = node.id;
+    tree_update.has_tree_data = true;
+  } else if ((flags & FlutterSemanticsFlag::kFlutterSemanticsFlagIsFocused) == 0 &&
+             tree_update.tree_data.focus_id == node.id) {
+    tree_update.tree_data.focus_id = AXNode::kInvalidAXID;
+    tree_update.has_tree_data = true;
+  }
 }
 
 AccessibilityBridge::SemanticsNode AccessibilityBridge::FromFlutterSemanticsNode(const FlutterSemanticsNode* flutter_node) {
