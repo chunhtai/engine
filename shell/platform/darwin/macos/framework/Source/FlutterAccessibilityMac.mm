@@ -452,11 +452,7 @@ bool FlutterAccessibilityMac::IsInGeneratedEventBatch(
   return false;
 }
 
-// AXPlatformNodeDelegateBase override
-const AXNodeData& FlutterAccessibilityMac::GetData() const {
-  return GetAXNode()->data();
-}
-
+// FlutterAccessibilityMac override
 void FlutterAccessibilityMac::DispatchAccessibilityAction(uint16_t target, FlutterSemanticsAction action, uint8_t* data, size_t data_size) {
   FML_LOG(ERROR) << "dispatch action to engine" << action;
   [GetFlutterEngine() dispatchSemanticsAction:target
@@ -468,21 +464,6 @@ void FlutterAccessibilityMac::DispatchAccessibilityAction(uint16_t target, Flutt
 gfx::NativeViewAccessible FlutterAccessibilityMac::GetNativeViewAccessible() {
   FML_DCHECK(ax_platform_node_);
   return ax_platform_node_->GetNativeViewAccessible();
-}
-
-gfx::NativeViewAccessible FlutterAccessibilityMac::GetParent() {
-  if (!GetAXNode()->parent()) {
-    return nullptr;
-  }
-  return GetBridge()->GetFlutterAccessibilityFromID(GetAXNode()->parent()->id())->GetNativeViewAccessible();
-}
-
-gfx::NativeViewAccessible FlutterAccessibilityMac::GetFocus() {
-  int32_t focused_node = GetBridge()->GetLastFocusedNode();
-  if (focused_node == ax::AXNode::kInvalidAXID) {
-    return nullptr;
-  }
-  return GetBridge()->GetFlutterAccessibilityFromID(focused_node)->GetNativeViewAccessible();
 }
 
 SkRect FlutterAccessibilityMac::GetBoundsRect(const AXCoordinateSystem coordinate_system,
@@ -722,15 +703,6 @@ FlutterAccessibilityMac::GetUserInfoForValueChangedNotification(
 
 FlutterEngine* FlutterAccessibilityMac::GetFlutterEngine() const {
   return (__bridge FlutterEngine*)GetBridge()->GetUserData();
-}
-
-int FlutterAccessibilityMac::GetChildCount() const {
-  return static_cast<int>(GetAXNode()->GetUnignoredChildCount());
-}
-
-gfx::NativeViewAccessible FlutterAccessibilityMac::ChildAtIndex(int index) {
-  int32_t child = GetAXNode()->GetUnignoredChildAtIndex(index)->id();
-  return GetBridge()->GetFlutterAccessibilityFromID(child)->GetNativeViewAccessible();
 }
 
 gfx::NativeViewAccessible FlutterAccessibilityMac::GetNSWindow() {

@@ -20,16 +20,11 @@ class FlutterAccessibilityMac : public FlutterAccessibility {
   ~FlutterAccessibilityMac();
   // FlutterAccessibility override
   void OnAccessibilityEvent(AXEventGenerator::TargetedEvent targeted_event) override;
-  const AXNodeData& GetData() const override;
   void DispatchAccessibilityAction(uint16_t target, FlutterSemanticsAction action, uint8_t* data, size_t data_size) override;
   gfx::NativeViewAccessible GetNativeViewAccessible() override;
-  gfx::NativeViewAccessible GetParent() override;
-  gfx::NativeViewAccessible GetFocus() override;
-  int GetChildCount() const override;
   SkRect GetBoundsRect(const AXCoordinateSystem coordinate_system,
                           const AXClippingBehavior clipping_behavior,
                           AXOffscreenResult* offscreen_result) const override;
-  gfx::NativeViewAccessible ChildAtIndex(int index) override;
   gfx::NativeViewAccessible GetNSWindow() override;
  
  private:
