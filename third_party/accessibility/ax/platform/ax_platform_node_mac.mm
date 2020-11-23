@@ -66,6 +66,150 @@ NSString* const NSAccessibilityStartTextMarkerAttribute = @"AXStartTextMarker";
 NSString* const NSAccessibilityEndTextMarkerAttribute = @"AXEndTextMarker";
 NSString* const NSAccessibilitySelectedTextMarkerRangeAttribute =
     @"AXSelectedTextMarkerRange";
+
+// attribute name
+NSString* const NSAccessibilityARIAColumnCountAttribute = @"AXARIAColumnCount";
+NSString* const NSAccessibilityARIAColumnIndexAttribute = @"AXARIAColumnIndex";
+NSString* const NSAccessibilityARIARowCountAttribute = @"AXARIARowCount";
+NSString* const NSAccessibilityARIARowIndexAttribute = @"AXARIARowIndex";
+NSString* const NSAccessibilityAccessKeyAttribute = @"AXAccessKey";
+NSString* const NSAccessibilityAutocompleteValueAttribute =
+    @"AXAutocompleteValue";
+NSString* const NSAccessibilityBlockQuoteLevelAttribute = @"AXBlockQuoteLevel";
+NSString* const NSAccessibilityDOMClassList = @"AXDOMClassList";
+NSString* const NSAccessibilityDOMIdentifierAttribute = @"AXDOMIdentifier";
+NSString* const NSAccessibilityEditableAncestorAttribute =
+    @"AXEditableAncestor";
+NSString* const NSAccessibilityElementBusyAttribute = @"AXElementBusy";
+NSString* const NSAccessibilityFocusableAncestorAttribute =
+    @"AXFocusableAncestor";
+NSString* const NSAccessibilityHasPopupAttribute = @"AXHasPopup";
+NSString* const NSAccessibilityPopupValueAttribute = @"AXPopupValue";
+NSString* const NSAccessibilityHighestEditableAncestorAttribute =
+    @"AXHighestEditableAncestor";
+NSString* const NSAccessibilityInvalidAttribute = @"AXInvalid";
+NSString* const NSAccessibilityLoadingProgressAttribute = @"AXLoadingProgress";
+NSString* const NSAccessibilityOwnsAttribute = @"AXOwns";
+NSString* const NSAccessibilityVisitedAttribute = @"AXVisited";
+NSString* const NSAccessibilityValueAutofillAvailableAttribute =
+    @"AXValueAutofillAvailable";
+
+
+// parameterized attribute name.
+NSString* const
+    NSAccessibilityUIElementCountForSearchPredicateParameterizedAttribute =
+        @"AXUIElementCountForSearchPredicate";
+NSString* const
+    NSAccessibilityUIElementsForSearchPredicateParameterizedAttribute =
+        @"AXUIElementsForSearchPredicate";
+NSString* const NSAccessibilityTextMarkerIsValidParameterizedAttribute =
+    @"AXTextMarkerIsValid";
+NSString* const NSAccessibilityIndexForTextMarkerParameterizedAttribute =
+    @"AXIndexForTextMarker";
+NSString* const NSAccessibilityTextMarkerForIndexParameterizedAttribute =
+    @"AXTextMarkerForIndex";
+NSString* const NSAccessibilityEndTextMarkerForBoundsParameterizedAttribute =
+    @"AXEndTextMarkerForBounds";
+NSString* const NSAccessibilityStartTextMarkerForBoundsParameterizedAttribute =
+    @"AXStartTextMarkerForBounds";
+NSString* const
+    NSAccessibilityLineTextMarkerRangeForTextMarkerParameterizedAttribute =
+        @"AXLineTextMarkerRangeForTextMarker";
+NSString* const NSAccessibilityUIElementForTextMarkerParameterizedAttribute =
+    @"AXUIElementForTextMarker";
+NSString* const
+    NSAccessibilityTextMarkerRangeForUIElementParameterizedAttribute =
+        @"AXTextMarkerRangeForUIElement";
+NSString* const NSAccessibilityLineForTextMarkerParameterizedAttribute =
+    @"AXLineForTextMarker";
+NSString* const NSAccessibilityTextMarkerRangeForLineParameterizedAttribute =
+    @"AXTextMarkerRangeForLine";
+NSString* const NSAccessibilityStringForTextMarkerRangeParameterizedAttribute =
+    @"AXStringForTextMarkerRange";
+NSString* const NSAccessibilityTextMarkerForPositionParameterizedAttribute =
+    @"AXTextMarkerForPosition";
+NSString* const NSAccessibilityBoundsForTextMarkerRangeParameterizedAttribute =
+    @"AXBoundsForTextMarkerRange";
+NSString* const
+    NSAccessibilityAttributedStringForTextMarkerRangeParameterizedAttribute =
+        @"AXAttributedStringForTextMarkerRange";
+NSString* const
+    NSAccessibilityAttributedStringForTextMarkerRangeWithOptionsParameterizedAttribute =
+        @"AXAttributedStringForTextMarkerRangeWithOptions";
+NSString* const
+    NSAccessibilityTextMarkerRangeForUnorderedTextMarkersParameterizedAttribute =
+        @"AXTextMarkerRangeForUnorderedTextMarkers";
+NSString* const
+    NSAccessibilityNextTextMarkerForTextMarkerParameterizedAttribute =
+        @"AXNextTextMarkerForTextMarker";
+NSString* const
+    NSAccessibilityPreviousTextMarkerForTextMarkerParameterizedAttribute =
+        @"AXPreviousTextMarkerForTextMarker";
+NSString* const
+    NSAccessibilityLeftWordTextMarkerRangeForTextMarkerParameterizedAttribute =
+        @"AXLeftWordTextMarkerRangeForTextMarker";
+NSString* const
+    NSAccessibilityRightWordTextMarkerRangeForTextMarkerParameterizedAttribute =
+        @"AXRightWordTextMarkerRangeForTextMarker";
+NSString* const
+    NSAccessibilityLeftLineTextMarkerRangeForTextMarkerParameterizedAttribute =
+        @"AXLeftLineTextMarkerRangeForTextMarker";
+NSString* const
+    NSAccessibilityRightLineTextMarkerRangeForTextMarkerParameterizedAttribute =
+        @"AXRightLineTextMarkerRangeForTextMarker";
+NSString* const
+    NSAccessibilitySentenceTextMarkerRangeForTextMarkerParameterizedAttribute =
+        @"AXSentenceTextMarkerRangeForTextMarker";
+NSString* const
+    NSAccessibilityParagraphTextMarkerRangeForTextMarkerParameterizedAttribute =
+        @"AXParagraphTextMarkerRangeForTextMarker";
+NSString* const
+    NSAccessibilityNextWordEndTextMarkerForTextMarkerParameterizedAttribute =
+        @"AXNextWordEndTextMarkerForTextMarker";
+NSString* const
+    NSAccessibilityPreviousWordStartTextMarkerForTextMarkerParameterizedAttribute =
+        @"AXPreviousWordStartTextMarkerForTextMarker";
+NSString* const
+    NSAccessibilityNextLineEndTextMarkerForTextMarkerParameterizedAttribute =
+        @"AXNextLineEndTextMarkerForTextMarker";
+NSString* const
+    NSAccessibilityPreviousLineStartTextMarkerForTextMarkerParameterizedAttribute =
+        @"AXPreviousLineStartTextMarkerForTextMarker";
+NSString* const
+    NSAccessibilityNextSentenceEndTextMarkerForTextMarkerParameterizedAttribute =
+        @"AXNextSentenceEndTextMarkerForTextMarker";
+NSString* const
+    NSAccessibilityPreviousSentenceStartTextMarkerForTextMarkerParameterizedAttribute =
+        @"AXPreviousSentenceStartTextMarkerForTextMarker";
+NSString* const
+    NSAccessibilityNextParagraphEndTextMarkerForTextMarkerParameterizedAttribute =
+        @"AXNextParagraphEndTextMarkerForTextMarker";
+NSString* const
+    NSAccessibilityPreviousParagraphStartTextMarkerForTextMarkerParameterizedAttribute =
+        @"AXPreviousParagraphStartTextMarkerForTextMarker";
+NSString* const
+    NSAccessibilityStyleTextMarkerRangeForTextMarkerParameterizedAttribute =
+        @"AXStyleTextMarkerRangeForTextMarker";
+NSString* const NSAccessibilityLengthForTextMarkerRangeParameterizedAttribute =
+    @"AXLengthForTextMarkerRange";
+// Private attributes that can be used for testing text markers, e.g. in dump
+// tree tests.
+// NSString* const
+//     NSAccessibilityTextMarkerDebugDescriptionParameterizedAttribute =
+//         @"AXTextMarkerDebugDescription";
+// NSString* const
+//     NSAccessibilityTextMarkerRangeDebugDescriptionParameterizedAttribute =
+//         @"AXTextMarkerRangeDebugDescription";
+// NSString* const
+//     NSAccessibilityTextMarkerNodeDebugDescriptionParameterizedAttribute =
+//         @"AXTextMarkerNodeDebugDescription";
+
+// Other private attributes.
+NSString* const NSAccessibilitySelectTextWithCriteriaParameterizedAttribute =
+    @"AXSelectTextWithCriteria";
+NSString* const NSAccessibilityIndexForChildUIElementParameterizedAttribute =
+    @"AXIndexForChildUIElement";
+
 // Same length as web content/WebKit.
 static int kLiveRegionDebounceMillis = 20;
 
@@ -404,12 +548,6 @@ void PostAnnouncementNotification(NSString* announcement,
       window, NSAccessibilityAnnouncementRequestedNotification,
       notification_info);
 }
-void NotifyMacEvent(AXPlatformNodeCocoa* target, ax::Event event_type) {
-  NSString* notification =
-      [AXPlatformNodeCocoa nativeNotificationFromAXEvent:event_type];
-  if (notification)
-    NSAccessibilityPostNotification(target, notification);
-}
 
 // Returns true if |action| should be added implicitly for |data|.
 bool HasImplicitAction(const ax::AXNodeData& data, ax::Action action) {
@@ -647,77 +785,325 @@ bool AlsoUseShowMenuActionForDefaultAction(const ax::AXNodeData& data) {
 }
 
 // This method, while deprecated, is still called internally by AppKit.
+// - (NSArray*)accessibilityAttributeNames {
+//   if (!_node)
+//     return @[];
+//   // These attributes are required on all accessibility objects.
+//   NSArray* const kAllRoleAttributes = @[
+//     NSAccessibilityChildrenAttribute,
+//     NSAccessibilityParentAttribute,
+//     NSAccessibilityPositionAttribute,
+//     NSAccessibilityRoleAttribute,
+//     NSAccessibilitySizeAttribute,
+//     NSAccessibilitySubroleAttribute,
+//     // Title is required for most elements. Cocoa asks for the value even if it
+//     // is omitted here, but won't present it to accessibility APIs without this.
+//     NSAccessibilityTitleAttribute,
+//     // Attributes which are not required, but are general to all roles.
+//     NSAccessibilityRoleDescriptionAttribute,
+//     NSAccessibilityEnabledAttribute,
+//     NSAccessibilityFocusedAttribute,
+//     NSAccessibilityHelpAttribute,
+//     NSAccessibilityTopLevelUIElementAttribute,
+//     NSAccessibilityWindowAttribute,
+//   ];
+//   // Attributes required for user-editable controls.
+//   NSArray* const kValueAttributes = @[ NSAccessibilityValueAttribute ];
+//   // Attributes required for unprotected textfields and labels.
+//   NSArray* const kUnprotectedTextAttributes = @[
+//     NSAccessibilityInsertionPointLineNumberAttribute,
+//     NSAccessibilityNumberOfCharactersAttribute,
+//     NSAccessibilitySelectedTextAttribute,
+//     NSAccessibilityStartTextMarkerAttribute,
+//     NSAccessibilityEndTextMarkerAttribute,
+//     NSAccessibilitySelectedTextMarkerRangeAttribute,
+//     NSAccessibilitySelectedTextRangeAttribute,
+//     NSAccessibilityVisibleCharacterRangeAttribute,
+//   ];
+//   // Required for all text, including protected textfields.
+//   NSString* const kTextAttributes = NSAccessibilityPlaceholderValueAttribute;
+//   fml::scoped_nsobject<NSMutableArray> axAttributes(
+//       [[NSMutableArray alloc] init]);
+//   [axAttributes addObjectsFromArray:kAllRoleAttributes];
+//   switch (_node->GetData().role) {
+//     case ax::Role::kTextField:
+//     case ax::Role::kTextFieldWithComboBox:
+//     case ax::Role::kStaticText:
+//       [axAttributes addObject:kTextAttributes];
+//       if (!_node->GetData().HasState(ax::State::kProtected))
+//         [axAttributes addObjectsFromArray:kUnprotectedTextAttributes];
+//       // FALLTHROUGH;
+//     case ax::Role::kCheckBox:
+//     case ax::Role::kComboBoxMenuButton:
+//     case ax::Role::kMenuItemCheckBox:
+//     case ax::Role::kMenuItemRadio:
+//     case ax::Role::kRadioButton:
+//     case ax::Role::kSearchBox:
+//     case ax::Role::kSlider:
+//     case ax::Role::kSliderThumb:
+//     case ax::Role::kToggleButton:
+//       [axAttributes addObjectsFromArray:kValueAttributes];
+//       break;
+//       // TODO(tapted): Add additional attributes based on role.
+//     default:
+//       break;
+//   }
+//   if (_node->GetData().HasBoolAttribute(ax::BoolAttribute::kSelected)) {
+//     [axAttributes addObjectsFromArray:@[ NSAccessibilitySelectedAttribute ]];
+//   }
+//   if (ax::IsMenuItem(_node->GetData().role)) {
+//     [axAttributes addObjectsFromArray:@[ @"AXMenuItemMarkChar" ]];
+//   }
+//   return axAttributes.autorelease();
+// }
+
 - (NSArray*)accessibilityAttributeNames {
-  if (!_node)
-    return @[];
-  // These attributes are required on all accessibility objects.
-  NSArray* const kAllRoleAttributes = @[
-    NSAccessibilityChildrenAttribute,
-    NSAccessibilityParentAttribute,
-    NSAccessibilityPositionAttribute,
-    NSAccessibilityRoleAttribute,
-    NSAccessibilitySizeAttribute,
-    NSAccessibilitySubroleAttribute,
-    // Title is required for most elements. Cocoa asks for the value even if it
-    // is omitted here, but won't present it to accessibility APIs without this.
-    NSAccessibilityTitleAttribute,
-    // Attributes which are not required, but are general to all roles.
-    NSAccessibilityRoleDescriptionAttribute,
-    NSAccessibilityEnabledAttribute,
-    NSAccessibilityFocusedAttribute,
-    NSAccessibilityHelpAttribute,
-    NSAccessibilityTopLevelUIElementAttribute,
-    NSAccessibilityWindowAttribute,
-  ];
-  // Attributes required for user-editable controls.
-  NSArray* const kValueAttributes = @[ NSAccessibilityValueAttribute ];
-  // Attributes required for unprotected textfields and labels.
-  NSArray* const kUnprotectedTextAttributes = @[
-    NSAccessibilityInsertionPointLineNumberAttribute,
-    NSAccessibilityNumberOfCharactersAttribute,
-    NSAccessibilitySelectedTextAttribute,
-    NSAccessibilityStartTextMarkerAttribute,
-    NSAccessibilityEndTextMarkerAttribute,
-    NSAccessibilitySelectedTextMarkerRangeAttribute,
-    NSAccessibilitySelectedTextRangeAttribute,
-    NSAccessibilityVisibleCharacterRangeAttribute,
-  ];
-  // Required for all text, including protected textfields.
-  NSString* const kTextAttributes = NSAccessibilityPlaceholderValueAttribute;
-  fml::scoped_nsobject<NSMutableArray> axAttributes(
-      [[NSMutableArray alloc] init]);
-  [axAttributes addObjectsFromArray:kAllRoleAttributes];
-  switch (_node->GetData().role) {
-    case ax::Role::kTextField:
-    case ax::Role::kTextFieldWithComboBox:
-    case ax::Role::kStaticText:
-      [axAttributes addObject:kTextAttributes];
-      if (!_node->GetData().HasState(ax::State::kProtected))
-        [axAttributes addObjectsFromArray:kUnprotectedTextAttributes];
-      // FALLTHROUGH;
-    case ax::Role::kCheckBox:
-    case ax::Role::kComboBoxMenuButton:
-    case ax::Role::kMenuItemCheckBox:
-    case ax::Role::kMenuItemRadio:
-    case ax::Role::kRadioButton:
-    case ax::Role::kSearchBox:
-    case ax::Role::kSlider:
-    case ax::Role::kSliderThumb:
-    case ax::Role::kToggleButton:
-      [axAttributes addObjectsFromArray:kValueAttributes];
-      break;
-      // TODO(tapted): Add additional attributes based on role.
-    default:
-      break;
+  // General attributes.
+  NSMutableArray* ret = [NSMutableArray
+      arrayWithObjects:NSAccessibilityBlockQuoteLevelAttribute,
+                       NSAccessibilityChildrenAttribute,
+                       NSAccessibilityDescriptionAttribute,
+                       NSAccessibilityDOMClassList,
+                       NSAccessibilityDOMIdentifierAttribute,
+                       NSAccessibilityElementBusyAttribute,
+                       NSAccessibilityEnabledAttribute,
+                       NSAccessibilityEndTextMarkerAttribute,
+                       NSAccessibilityFocusedAttribute,
+                       NSAccessibilityHelpAttribute,
+                       NSAccessibilityLinkedUIElementsAttribute,
+                       NSAccessibilityParentAttribute,
+                       NSAccessibilityPositionAttribute,
+                       NSAccessibilityRoleAttribute,
+                       NSAccessibilityRoleDescriptionAttribute,
+                       NSAccessibilitySelectedAttribute,
+                       NSAccessibilitySelectedTextMarkerRangeAttribute,
+                       NSAccessibilitySizeAttribute,
+                       NSAccessibilityStartTextMarkerAttribute,
+                       NSAccessibilitySubroleAttribute,
+                       NSAccessibilityTitleAttribute,
+                       NSAccessibilityTitleUIElementAttribute,
+                       NSAccessibilityTopLevelUIElementAttribute,
+                       NSAccessibilityValueAttribute,
+                       NSAccessibilityVisitedAttribute,
+                       NSAccessibilityWindowAttribute, nil];
+
+  // Specific role attributes.
+  NSString* role = [self AXRole];
+  if ([role isEqualToString:NSAccessibilityTableRole] ||
+      [role isEqualToString:NSAccessibilityGridRole]) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilityColumnsAttribute,
+      NSAccessibilityVisibleColumnsAttribute,
+      NSAccessibilityRowsAttribute,
+      NSAccessibilityVisibleRowsAttribute,
+      NSAccessibilityVisibleCellsAttribute,
+      NSAccessibilityHeaderAttribute,
+      NSAccessibilityColumnHeaderUIElementsAttribute,
+      NSAccessibilityRowHeaderUIElementsAttribute,
+      NSAccessibilityARIAColumnCountAttribute,
+      NSAccessibilityARIARowCountAttribute,
+    ]];
+  } else if ([role isEqualToString:NSAccessibilityColumnRole]) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilityIndexAttribute, NSAccessibilityHeaderAttribute,
+      NSAccessibilityRowsAttribute, NSAccessibilityVisibleRowsAttribute
+    ]];
+  } else if ([role isEqualToString:NSAccessibilityCellRole]) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilityColumnIndexRangeAttribute,
+      NSAccessibilityRowIndexRangeAttribute,
+      NSAccessibilityARIAColumnIndexAttribute,
+      NSAccessibilityARIARowIndexAttribute,
+      @"AXSortDirection",
+    ]];
+    if (_node->GetData().role != ax::Role::kColumnHeader) {
+      [ret addObjectsFromArray:@[
+        NSAccessibilityColumnHeaderUIElementsAttribute,
+      ]];
+    }
+    if (_node->GetData().role != ax::Role::kRowHeader) {
+      [ret addObjectsFromArray:@[
+        NSAccessibilityRowHeaderUIElementsAttribute,
+      ]];
+    }
+  } else if ([role isEqualToString:@"AXWebArea"]) {
+    [ret addObjectsFromArray:@[
+      @"AXLoaded", NSAccessibilityLoadingProgressAttribute
+    ]];
+  } else if ([role isEqualToString:NSAccessibilityTabGroupRole]) {
+    [ret addObject:NSAccessibilityTabsAttribute];
+  } else if (_node->GetData().IsRangeValueSupported()) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilityMaxValueAttribute, NSAccessibilityMinValueAttribute,
+      NSAccessibilityValueDescriptionAttribute
+    ]];
+  } else if ([role isEqualToString:NSAccessibilityListRole]) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilitySelectedChildrenAttribute,
+      NSAccessibilityVisibleChildrenAttribute
+    ]];
+  } else if ([role isEqualToString:NSAccessibilityOutlineRole]) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilitySelectedRowsAttribute,
+      NSAccessibilityRowsAttribute,
+      NSAccessibilityColumnsAttribute,
+      NSAccessibilityOrientationAttribute
+    ]];
   }
+
+  // Caret navigation and text selection attributes.
+  if (_node->GetData().HasState(ax::State::kEditable)) {
+    // Add ancestor attributes if not a web area.
+    if (![role isEqualToString:@"AXWebArea"]) {
+      [ret addObjectsFromArray:@[
+        NSAccessibilityEditableAncestorAttribute,
+        NSAccessibilityFocusableAncestorAttribute,
+        NSAccessibilityHighestEditableAncestorAttribute
+      ]];
+    }
+  }
+
+  if (_node->GetData().GetBoolAttribute(ax::BoolAttribute::kEditableRoot)) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilityInsertionPointLineNumberAttribute,
+      NSAccessibilityNumberOfCharactersAttribute,
+      NSAccessibilityPlaceholderValueAttribute,
+      NSAccessibilitySelectedTextAttribute,
+      NSAccessibilitySelectedTextRangeAttribute,
+      NSAccessibilityVisibleCharacterRangeAttribute,
+      NSAccessibilityValueAutofillAvailableAttribute,
+      // Not currently supported by Chrome:
+      // NSAccessibilityValueAutofilledAttribute,
+      // Not currently supported by Chrome:
+      // NSAccessibilityValueAutofillTypeAttribute
+    ]];
+  }
+
+
+  if (_node->GetData().HasIntAttribute(ax::IntAttribute::kHasPopup)) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilityHasPopupAttribute, NSAccessibilityPopupValueAttribute
+    ]];
+  }
+
   if (_node->GetData().HasBoolAttribute(ax::BoolAttribute::kSelected)) {
-    [axAttributes addObjectsFromArray:@[ NSAccessibilitySelectedAttribute ]];
+    [ret addObjectsFromArray:@[ NSAccessibilitySelectedAttribute ]];
   }
-  if (ax::IsMenuItem(_node->GetData().role)) {
-    [axAttributes addObjectsFromArray:@[ @"AXMenuItemMarkChar" ]];
+
+  // Anything focusable or any control:
+  if (_node->GetData().HasIntAttribute(ax::IntAttribute::kRestriction) ||
+      _node->GetData().HasIntAttribute(ax::IntAttribute::kInvalidState) ||
+      _node->GetData().HasState(ax::State::kFocusable)) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilityAccessKeyAttribute,
+      NSAccessibilityInvalidAttribute,
+      @"AXRequired",
+    ]];
   }
-  return axAttributes.autorelease();
+  if (_node->GetData().role == ax::Role::kTextFieldWithComboBox) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilityOwnsAttribute,
+    ]];
+  }
+
+  // Title UI Element.
+  if (_node->GetData().HasIntListAttribute(
+          ax::IntListAttribute::kLabelledbyIds) &&
+      _node->GetData().GetIntListAttribute(ax::IntListAttribute::kLabelledbyIds)
+              .size() > 0) {
+    [ret addObjectsFromArray:@[ NSAccessibilityTitleUIElementAttribute ]];
+  }
+
+  if (_node->GetData().HasStringAttribute(ax::StringAttribute::kAutoComplete))
+    [ret addObject:NSAccessibilityAutocompleteValueAttribute];
+
+  // TODO(aboxhall): expose NSAccessibilityServesAsTitleForUIElementsAttribute
+  // for elements which are referred to by labelledby or are labels
+  NSLog(@"this %@ accessibilityAttributeNames %@",self, ret);
+  return ret;
 }
+
+- (NSArray*)accessibilityParameterizedAttributeNames {
+  // General attributes.
+  NSMutableArray* ret = [NSMutableArray
+      arrayWithObjects:
+          NSAccessibilityUIElementForTextMarkerParameterizedAttribute,
+          NSAccessibilityTextMarkerRangeForUIElementParameterizedAttribute,
+          NSAccessibilityLineForTextMarkerParameterizedAttribute,
+          NSAccessibilityTextMarkerRangeForLineParameterizedAttribute,
+          NSAccessibilityStringForTextMarkerRangeParameterizedAttribute,
+          NSAccessibilityTextMarkerForPositionParameterizedAttribute,
+          NSAccessibilityBoundsForTextMarkerRangeParameterizedAttribute,
+          NSAccessibilityAttributedStringForTextMarkerRangeParameterizedAttribute,
+          NSAccessibilityAttributedStringForTextMarkerRangeWithOptionsParameterizedAttribute,
+          NSAccessibilityTextMarkerRangeForUnorderedTextMarkersParameterizedAttribute,
+          NSAccessibilityNextTextMarkerForTextMarkerParameterizedAttribute,
+          NSAccessibilityPreviousTextMarkerForTextMarkerParameterizedAttribute,
+          NSAccessibilityLeftWordTextMarkerRangeForTextMarkerParameterizedAttribute,
+          NSAccessibilityRightWordTextMarkerRangeForTextMarkerParameterizedAttribute,
+          NSAccessibilityLeftLineTextMarkerRangeForTextMarkerParameterizedAttribute,
+          NSAccessibilityRightLineTextMarkerRangeForTextMarkerParameterizedAttribute,
+          NSAccessibilitySentenceTextMarkerRangeForTextMarkerParameterizedAttribute,
+          NSAccessibilityParagraphTextMarkerRangeForTextMarkerParameterizedAttribute,
+          NSAccessibilityNextWordEndTextMarkerForTextMarkerParameterizedAttribute,
+          NSAccessibilityPreviousWordStartTextMarkerForTextMarkerParameterizedAttribute,
+          NSAccessibilityNextLineEndTextMarkerForTextMarkerParameterizedAttribute,
+          NSAccessibilityPreviousLineStartTextMarkerForTextMarkerParameterizedAttribute,
+          NSAccessibilityNextSentenceEndTextMarkerForTextMarkerParameterizedAttribute,
+          NSAccessibilityPreviousSentenceStartTextMarkerForTextMarkerParameterizedAttribute,
+          NSAccessibilityNextParagraphEndTextMarkerForTextMarkerParameterizedAttribute,
+          NSAccessibilityPreviousParagraphStartTextMarkerForTextMarkerParameterizedAttribute,
+          NSAccessibilityStyleTextMarkerRangeForTextMarkerParameterizedAttribute,
+          NSAccessibilityLengthForTextMarkerRangeParameterizedAttribute,
+          NSAccessibilityEndTextMarkerForBoundsParameterizedAttribute,
+          NSAccessibilityStartTextMarkerForBoundsParameterizedAttribute,
+          NSAccessibilityLineTextMarkerRangeForTextMarkerParameterizedAttribute,
+          NSAccessibilityIndexForChildUIElementParameterizedAttribute,
+          NSAccessibilityBoundsForRangeParameterizedAttribute,
+          NSAccessibilityStringForRangeParameterizedAttribute,
+          NSAccessibilityUIElementCountForSearchPredicateParameterizedAttribute,
+          NSAccessibilityUIElementsForSearchPredicateParameterizedAttribute,
+          NSAccessibilitySelectTextWithCriteriaParameterizedAttribute, nil];
+
+  if ([[self AXRole] isEqualToString:NSAccessibilityTableRole] ||
+      [[self AXRole] isEqualToString:NSAccessibilityGridRole]) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilityCellForColumnAndRowParameterizedAttribute
+    ]];
+  }
+
+  if (_node->GetData().HasState(ax::State::kEditable)) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilityLineForIndexParameterizedAttribute,
+      NSAccessibilityRangeForLineParameterizedAttribute,
+      NSAccessibilityStringForRangeParameterizedAttribute,
+      NSAccessibilityRangeForPositionParameterizedAttribute,
+      NSAccessibilityRangeForIndexParameterizedAttribute,
+      NSAccessibilityBoundsForRangeParameterizedAttribute,
+      NSAccessibilityRTFForRangeParameterizedAttribute,
+      NSAccessibilityAttributedStringForRangeParameterizedAttribute,
+      NSAccessibilityStyleRangeForIndexParameterizedAttribute
+    ]];
+  }
+
+  if (_node->GetData().role == ax::Role::kStaticText) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilityBoundsForRangeParameterizedAttribute
+    ]];
+  }
+
+  if (_node->GetData().role == ax::Role::kRootWebArea ||
+      _node->GetData().role == ax::Role::kWebArea) {
+    [ret addObjectsFromArray:@[
+      NSAccessibilityTextMarkerIsValidParameterizedAttribute,
+      NSAccessibilityIndexForTextMarkerParameterizedAttribute,
+      NSAccessibilityTextMarkerForIndexParameterizedAttribute
+    ]];
+  }
+  NSLog(@"this %@ accessibilityParameterizedAttributeNames %@",self, ret);
+  return ret;
+}
+
 
 // Despite it being deprecated, AppKit internally calls this function sometimes
 // in unclear circumstances. It is implemented in terms of the new a11y API
@@ -745,14 +1131,18 @@ bool AlsoUseShowMenuActionForDefaultAction(const ax::AXNodeData& data) {
 - (id)accessibilityAttributeValue:(NSString*)attribute {
   if (!_node)
     return nil;  // Return nil when detached. Even for ax::Role.
+  // NSLog(@"access attribute %@, for %@", attribute, self);
   SEL selector = NSSelectorFromString(attribute);
   if ([self respondsToSelector:selector])
     return [self performSelector:selector];
   return nil;
 }
 
+// Returns the accessibility value for the given attribute and parameter. If the
+// value isn't supported this will return nil.
 - (id)accessibilityAttributeValue:(NSString*)attribute
                      forParameter:(id)parameter {
+  // NSLog(@"access parameterized attribute %@, for %@", attribute, self);
   if (!_node)
     return nil;
   SEL selector = NSSelectorFromString([attribute stringByAppendingString:@":"]);
@@ -917,6 +1307,7 @@ bool AlsoUseShowMenuActionForDefaultAction(const ax::AXNodeData& data) {
 // Text-specific attributes.
 
 - (NSString*)AXSelectedText {
+  FML_LOG(ERROR) << "AXSelectedText called";
   NSRange selectedTextRange;
   [[self AXSelectedTextRange] getValue:&selectedTextRange];
   return [[self getAXValueAsString] substringWithRange:selectedTextRange];
@@ -924,6 +1315,7 @@ bool AlsoUseShowMenuActionForDefaultAction(const ax::AXNodeData& data) {
 
 - (NSValue*)AXSelectedTextRange {
   // Selection might not be supported. Return (NSRange){0,0} in that case.
+  FML_LOG(ERROR) << "AXSelectedTextRange called";
   int start = 0, end = 0;
   if (_node->IsPlainTextField()) {
     start = _node->GetIntAttribute(ax::IntAttribute::kTextSelStart);
@@ -934,47 +1326,18 @@ bool AlsoUseShowMenuActionForDefaultAction(const ax::AXNodeData& data) {
   return [NSValue valueWithRange:{static_cast<NSUInteger>(std::min(start, end)), static_cast<NSUInteger>(abs(end - start))}];
 }
 
-- (id)AXSelectedTextMarkerRange {
-  ax::AXTree::Selection selection;
-  selection.is_backward = true;
-  selection.anchor_offset = _node->GetIntAttribute(ax::IntAttribute::kTextSelEnd);
-  selection.focus_offset = _node->GetIntAttribute(ax::IntAttribute::kTextSelStart);
-  selection.anchor_object_id = _node->GetData().id;
-  selection.focus_object_id = _node->GetData().id;
-  return CreateTextMarkerRange(selection);
-}
-
-- (id)AXStartTextMarker {
-  ax::AXTreeID tree_id;
-  ax::AXNodePosition::AXPositionInstance position = ax::AXNodePosition::CreateTextPosition(
-      tree_id, _node->GetData().id, 0,  ax::TextAffinity::kDownstream);
-  ax::AXNodePosition::SerializedPosition serialized = position->Serialize();
-  AXTextMarkerRef cf_text_marker = AXTextMarkerCreate(
-      kCFAllocatorDefault, reinterpret_cast<const UInt8*>(&serialized),
-      sizeof(ax::AXNodePosition::SerializedPosition));
-  return (__bridge id)(cf_text_marker);
-}
-
-- (id)AXEndTextMarker {
-  ax::AXTreeID tree_id;
-  ax::AXNodePosition::AXPositionInstance position = ax::AXNodePosition::CreateTextPosition(
-      tree_id, _node->GetData().id, 0,  ax::TextAffinity::kDownstream);
-  ax::AXNodePosition::SerializedPosition serialized = position->Serialize();
-  AXTextMarkerRef cf_text_marker = AXTextMarkerCreate(
-      kCFAllocatorDefault, reinterpret_cast<const UInt8*>(&serialized),
-      sizeof(ax::AXNodePosition::SerializedPosition));
-  return (__bridge id)(cf_text_marker);
-}
-
 - (NSNumber*)AXNumberOfCharacters {
+  FML_LOG(ERROR) << "AXNumberOfCharacters called";
   return @([[self getAXValueAsString] length]);
 }
 
 - (NSValue*)AXVisibleCharacterRange {
+  FML_LOG(ERROR) << "AXVisibleCharacterRange called";
   return [NSValue valueWithRange:{0, [[self getAXValueAsString] length]}];
 }
 
 - (NSNumber*)AXInsertionPointLineNumber {
+  FML_LOG(ERROR) << "AXInsertionPointLineNumber called";
   // Multiline is not supported on views.
   return @0;
 }
@@ -984,21 +1347,25 @@ bool AlsoUseShowMenuActionForDefaultAction(const ax::AXNodeData& data) {
 - (id)AXLineForIndex:(id)parameter {
   FML_DCHECK([parameter isKindOfClass:[NSNumber class]]);
   // Multiline is not supported on views.
+  FML_LOG(ERROR) << "AXLineForIndex called";
   return @0;
 }
 
 - (id)AXRangeForLine:(id)parameter {
+  FML_LOG(ERROR) << "AXRangeForLine called";
   FML_DCHECK([parameter isKindOfClass:[NSNumber class]]);
   FML_DCHECK(0 == [parameter intValue]);
   return [NSValue valueWithRange:{0, [[self getAXValueAsString] length]}];
 }
 
 - (id)AXStringForRange:(id)parameter {
+  FML_LOG(ERROR) << "AXStringForRange called";
   FML_DCHECK([parameter isKindOfClass:[NSValue class]]);
   return [[self getAXValueAsString] substringWithRange:[parameter rangeValue]];
 }
 
 - (id)AXRangeForPosition:(id)parameter {
+  FML_LOG(ERROR) << "AXRangeForPosition called";
   FML_DCHECK([parameter isKindOfClass:[NSValue class]]);
   // TODO(tapted): Hit-test [parameter pointValue] and return an NSRange.
   FML_DCHECK(false);
@@ -1006,12 +1373,14 @@ bool AlsoUseShowMenuActionForDefaultAction(const ax::AXNodeData& data) {
 }
 
 - (id)AXRangeForIndex:(id)parameter {
+  FML_LOG(ERROR) << "AXRangeForIndex called";
   FML_DCHECK([parameter isKindOfClass:[NSNumber class]]);
   FML_DCHECK(false);
   return nil;
 }
 
 - (id)AXBoundsForRange:(id)parameter {
+  FML_LOG(ERROR) << "AXBoundsForRange called";
   FML_DCHECK([parameter isKindOfClass:[NSValue class]]);
   // TODO(tapted): Provide an accessor on AXPlatformNodeDelegate to obtain this
   // from ax::TextInputClient::GetCompositionCharacterBounds().
@@ -1022,18 +1391,21 @@ bool AlsoUseShowMenuActionForDefaultAction(const ax::AXNodeData& data) {
 }
 
 - (id)AXRTFForRange:(id)parameter {
+  FML_LOG(ERROR) << "AXRTFForRange called";
   FML_DCHECK([parameter isKindOfClass:[NSValue class]]);
   FML_DCHECK(false);
   return nil;
 }
 
 - (id)AXStyleRangeForIndex:(id)parameter {
+  FML_LOG(ERROR) << "AXStyleRangeForIndex called";
   FML_DCHECK([parameter isKindOfClass:[NSNumber class]]);
   FML_DCHECK(false);
   return nil;
 }
 
 - (id)AXAttributedStringForRange:(id)parameter {
+  FML_LOG(ERROR) << "AXAttributedStringForRange called";
   FML_DCHECK([parameter isKindOfClass:[NSValue class]]);
   fml::scoped_nsobject<NSAttributedString> attributedString(
       [[NSAttributedString alloc]
@@ -1048,6 +1420,238 @@ bool AlsoUseShowMenuActionForDefaultAction(const ax::AXNodeData& data) {
   return [NSString stringWithFormat:@"%@ - %@ (%@)", [super description],
                                     [self AXTitle], [self AXRole]];
 }
+
+// Flutter newly added atrributes.
+
+- (id)AXSelectedTextMarkerRange {
+  FML_LOG(ERROR) << "called AXSelectedTextMarkerRange";
+  ax::AXTree::Selection selection;
+  selection.is_backward = true;
+  selection.anchor_offset = _node->GetIntAttribute(ax::IntAttribute::kTextSelEnd);
+  selection.focus_offset = _node->GetIntAttribute(ax::IntAttribute::kTextSelStart);
+  selection.anchor_object_id = _node->GetData().id;
+  selection.focus_object_id = _node->GetData().id;
+  return CreateTextMarkerRange(selection);
+}
+
+- (id)AXStartTextMarker {
+  FML_LOG(ERROR) << "called AXStartTextMarker";
+  ax::AXTreeID tree_id;
+  ax::AXNodePosition::AXPositionInstance position = ax::AXNodePosition::CreateTextPosition(
+      tree_id, _node->GetData().id, 0,  ax::TextAffinity::kDownstream);
+  ax::AXNodePosition::SerializedPosition serialized = position->Serialize();
+  AXTextMarkerRef cf_text_marker = AXTextMarkerCreate(
+      kCFAllocatorDefault, reinterpret_cast<const UInt8*>(&serialized),
+      sizeof(ax::AXNodePosition::SerializedPosition));
+  return (__bridge id)(cf_text_marker);
+}
+
+- (id)AXEndTextMarker {
+  FML_LOG(ERROR) << "called AXEndTextMarker";
+  ax::AXTreeID tree_id;
+  ax::AXNodePosition::AXPositionInstance position = ax::AXNodePosition::CreateTextPosition(
+      tree_id, _node->GetData().id, 0,  ax::TextAffinity::kDownstream);
+  ax::AXNodePosition::SerializedPosition serialized = position->Serialize();
+  AXTextMarkerRef cf_text_marker = AXTextMarkerCreate(
+      kCFAllocatorDefault, reinterpret_cast<const UInt8*>(&serialized),
+      sizeof(ax::AXNodePosition::SerializedPosition));
+  return (__bridge id)(cf_text_marker);
+}
+
+- (id)AXUIElementCountForSearchPredicate:(id)parameter {
+  FML_LOG(ERROR)<< "called AXUIElementCountForSearchPredicate";
+  return nil;
+}
+- (id)AXUIElementsForSearchPredicate:(id)parameter {
+  FML_LOG(ERROR)<< "called AXUIElementsForSearchPredicate";
+  return nil;
+}
+- (id)AXTextMarkerIsValid:(id)parameter {
+  FML_LOG(ERROR)<< "called AXTextMarkerIsValid";
+  return nil;
+}
+- (id)AXIndexForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXIndexForTextMarker";
+  return nil;
+}
+- (id)AXTextMarkerForIndex:(id)parameter {
+  FML_LOG(ERROR)<< "called AXTextMarkerForIndex";
+  return nil;
+}
+- (id)AXEndTextMarkerForBounds:(id)parameter {
+  FML_LOG(ERROR)<< "called AXEndTextMarkerForBounds";
+  return nil;
+}
+- (id)AXStartTextMarkerForBounds:(id)parameter {
+  FML_LOG(ERROR)<< "called AXStartTextMarkerForBounds";
+  return nil;
+}
+- (id)AXLineTextMarkerRangeForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXLineTextMarkerRangeForTextMarker";
+  return nil;
+}
+- (id)AXUIElementForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXUIElementForTextMarker";
+  return nil;
+}
+- (id)AXTextMarkerRangeForUIElement:(id)parameter {
+  FML_LOG(ERROR)<< "called AXTextMarkerRangeForUIElement";
+  return nil;
+}
+- (id)AXLineForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXLineForTextMarker";
+  return nil;
+}
+- (id)AXTextMarkerRangeForLine:(id)parameter {
+  FML_LOG(ERROR)<< "called AXTextMarkerRangeForLine";
+  return nil;
+}
+- (id)AXStringForTextMarkerRange:(id)parameter {
+  FML_LOG(ERROR)<< "called AXStringForTextMarkerRange";
+  return nil;
+}
+- (id)AXTextMarkerForPosition:(id)parameter {
+  FML_LOG(ERROR)<< "called AXTextMarkerForPosition";
+  return nil;
+}
+- (id)AXBoundsForTextMarkerRange:(id)parameter {
+  FML_LOG(ERROR)<< "called AXBoundsForTextMarkerRange";
+  return nil;
+}
+- (id)AXAttributedStringForTextMarkerRange:(id)parameter {
+  FML_LOG(ERROR)<< "called AXAttributedStringForTextMarkerRange";
+  return nil;
+}
+- (id)AXAttributedStringForTextMarkerRangeWithOptions:(id)parameter {
+  FML_LOG(ERROR)<< "called AXAttributedStringForTextMarkerRangeWithOptions";
+  return nil;
+}
+- (id)AXTextMarkerRangeForUnorderedTextMarkers:(id)parameter {
+  FML_LOG(ERROR)<< "called AXTextMarkerRangeForUnorderedTextMarkers";
+  return nil;
+}
+- (id)AXNextTextMarkerForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXNextTextMarkerForTextMarker";
+  return nil;
+}
+- (id)AXPreviousTextMarkerForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXPreviousTextMarkerForTextMarker";
+  return nil;
+}
+- (id)AXLeftWordTextMarkerRangeForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXLeftWordTextMarkerRangeForTextMarker";
+  return nil;
+}
+- (id)AXRightWordTextMarkerRangeForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXRightWordTextMarkerRangeForTextMarker";
+  return nil;
+}
+- (id)AXLeftLineTextMarkerRangeForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXLeftLineTextMarkerRangeForTextMarker";
+  return nil;
+}
+- (id)AXRightLineTextMarkerRangeForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXRightLineTextMarkerRangeForTextMarker";
+  return nil;
+}
+- (id)AXSentenceTextMarkerRangeForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXSentenceTextMarkerRangeForTextMarker";
+  return nil;
+}
+- (id)AXParagraphTextMarkerRangeForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXParagraphTextMarkerRangeForTextMarker";
+  return nil;
+}
+- (id)AXNextWordEndTextMarkerForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXNextWordEndTextMarkerForTextMarker";
+  return nil;
+}
+- (id)AXPreviousWordStartTextMarkerForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXPreviousWordStartTextMarkerForTextMarker";
+  return nil;
+}
+- (id)AXNextLineEndTextMarkerForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXNextLineEndTextMarkerForTextMarker";
+  return nil;
+}
+- (id)AXPreviousLineStartTextMarkerForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXPreviousLineStartTextMarkerForTextMarker";
+  return nil;
+}
+- (id)AXNextSentenceEndTextMarkerForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXNextSentenceEndTextMarkerForTextMarker";
+  return nil;
+}
+- (id)AXPreviousSentenceStartTextMarkerForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXPreviousSentenceStartTextMarkerForTextMarker";
+  return nil;
+}
+- (id)AXNextParagraphEndTextMarkerForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXNextParagraphEndTextMarkerForTextMarker";
+  return nil;
+}
+- (id)AXPreviousParagraphStartTextMarkerForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXPreviousParagraphStartTextMarkerForTextMarker";
+  return nil;
+}
+- (id)AXStyleTextMarkerRangeForTextMarker:(id)parameter {
+  FML_LOG(ERROR)<< "called AXStyleTextMarkerRangeForTextMarker";
+  return nil;
+}
+- (id)AXLengthForTextMarkerRange:(id)parameter {
+  FML_LOG(ERROR)<< "called AXLengthForTextMarkerRange";
+  return nil;
+}
+- (id)AXIndexForChildUIElement:(id)parameter {
+  FML_LOG(ERROR)<< "called AXIndexForChildUIElement";
+  return nil;
+}
+- (id)AXSelectTextWithCriteria:(id)parameter {
+  FML_LOG(ERROR)<< "called AXSelectTextWithCriteria";
+  return nil;
+}
+
+- (id)AXBlockQuoteLevel {
+  FML_LOG(ERROR)<< "called AXBlockQuoteLevel";
+  return nil;
+}
+- (id)AXDOMClassList {
+  FML_LOG(ERROR)<< "called AXDOMClassList";
+  return nil;
+}
+- (id)AXDOMIdentifier {
+  FML_LOG(ERROR)<< "called AXDOMIdentifier";
+  return nil;
+}
+- (id)AXElementBusy {
+  FML_LOG(ERROR)<< "called AXElementBusy";
+  return nil;
+}
+- (id)AXEditableAncestor {
+  FML_LOG(ERROR)<< "called AXEditableAncestor";
+  return nil;
+}
+- (id)AXHighestEditableAncestor {
+  FML_LOG(ERROR)<< "called AXHighestEditableAncestor";
+  return nil;
+}
+- (id)AXFocusableAncestor {
+  FML_LOG(ERROR)<< "called AXFocusableAncestor";
+  return nil;
+}
+- (id)AXAccessKey {
+  FML_LOG(ERROR)<< "called AXAccessKey";
+  return nil;
+}
+- (id)AXInvalid {
+  FML_LOG(ERROR)<< "called AXInvalid";
+  return nil;
+}
+- (id)AXRequired {
+  FML_LOG(ERROR)<< "called AXRequired";
+  return nil;
+}
+
 
 // The methods below implement the NSAccessibility protocol. These methods
 // appear to be the minimum needed to avoid AppKit refusing to handle the
@@ -1331,7 +1935,7 @@ AXPlatformNode* AXPlatformNode::Create(AXPlatformNodeDelegate* delegate) {
 // static
 AXPlatformNode* AXPlatformNode::FromNativeViewAccessible(
     gfx::NativeViewAccessible accessible) {
-  if ([accessible isKindOfClass:[AXPlatformNodeCocoa class]])
+  if ([accessible isKindOfClass:[BrowserAccessibilityCocoa class]])
     return [accessible node];
   return nullptr;
 }
@@ -1361,51 +1965,51 @@ bool AXPlatformNodeMac::IsPlatformCheckable() const {
 
 gfx::NativeViewAccessible AXPlatformNodeMac::GetNativeViewAccessible() {
   if (!native_node_)
-    native_node_.reset([[AXPlatformNodeCocoa alloc] initWithNode:this]);
+    native_node_.reset([[BrowserAccessibilityCocoa alloc] initWithObject:this]);
   return native_node_.get();
 }
 
 void AXPlatformNodeMac::NotifyAccessibilityEvent(ax::Event event_type) {
-  AXPlatformNodeBase::NotifyAccessibilityEvent(event_type);
-  GetNativeViewAccessible();
-  // Handle special cases.
+  // AXPlatformNodeBase::NotifyAccessibilityEvent(event_type);
+  // GetNativeViewAccessible();
+  // // Handle special cases.
 
-  // Alerts and live regions go through the announcement API instead of the
-  // regular NSAccessibility notification system.
-  if (event_type == ax::Event::kAlert ||
-      event_type == ax::Event::kLiveRegionChanged) {
-    if (auto announcement = [native_node_ announcementForEvent:event_type]) {
-      [native_node_ scheduleLiveRegionAnnouncement:std::move(announcement)];
-    }
-    return;
-  }
-  if (event_type == ax::Event::kSelection) {
-    ax::Role role = GetData().role;
-    if (ax::IsMenuItem(role)) {
-      // On Mac, map menu item selection to a focus event.
-      NotifyMacEvent(native_node_, ax::Event::kFocus);
-      return;
-    } else if (ax::IsListItem(role)) {
-      if (AXPlatformNodeBase* container = GetSelectionContainer()) {
-        const ax::AXNodeData& data = container->GetData();
-        if (data.role == ax::Role::kListBox &&
-            !data.HasState(ax::State::kMultiselectable) &&
-            GetDelegate()->GetFocus() == GetNativeViewAccessible()) {
-          NotifyMacEvent(native_node_, ax::Event::kFocus);
-          return;
-        }
-      }
-    }
-  }
-  // Otherwise, use mappings between ax::Event and NSAccessibility
-  // notifications from the EventMap above.
-  NotifyMacEvent(native_node_, event_type);
+  // // Alerts and live regions go through the announcement API instead of the
+  // // regular NSAccessibility notification system.
+  // if (event_type == ax::Event::kAlert ||
+  //     event_type == ax::Event::kLiveRegionChanged) {
+  //   if (auto announcement = [native_node_ announcementForEvent:event_type]) {
+  //     [native_node_ scheduleLiveRegionAnnouncement:std::move(announcement)];
+  //   }
+  //   return;
+  // }
+  // if (event_type == ax::Event::kSelection) {
+  //   ax::Role role = GetData().role;
+  //   if (ax::IsMenuItem(role)) {
+  //     // On Mac, map menu item selection to a focus event.
+  //     NotifyMacEvent(native_node_, ax::Event::kFocus);
+  //     return;
+  //   } else if (ax::IsListItem(role)) {
+  //     if (AXPlatformNodeBase* container = GetSelectionContainer()) {
+  //       const ax::AXNodeData& data = container->GetData();
+  //       if (data.role == ax::Role::kListBox &&
+  //           !data.HasState(ax::State::kMultiselectable) &&
+  //           GetDelegate()->GetFocus() == GetNativeViewAccessible()) {
+  //         NotifyMacEvent(native_node_, ax::Event::kFocus);
+  //         return;
+  //       }
+  //     }
+  //   }
+  // }
+  // // Otherwise, use mappings between ax::Event and NSAccessibility
+  // // notifications from the EventMap above.
+  // NotifyMacEvent(native_node_, event_type);
 }
 
 void AXPlatformNodeMac::AnnounceText(const std::u16string& text) {
-  std::wstring_convert<std::codecvt_utf8_utf16<char16_t>,char16_t> convert;
-  PostAnnouncementNotification(@(convert.to_bytes(text).data()),
-                               [native_node_ AXWindow], false);
+  // std::wstring_convert<std::codecvt_utf8_utf16<char16_t>,char16_t> convert;
+  // PostAnnouncementNotification(@(convert.to_bytes(text).data()),
+  //                              [native_node_ AXWindow], false);
 }
 
 bool IsNameExposedInAXValueForRole(ax::Role role) {

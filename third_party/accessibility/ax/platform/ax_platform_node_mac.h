@@ -12,13 +12,13 @@
 
 #include "../ax_export.h"
 #include "ax_platform_node_base.h"
-
+#include "browser_accessibility_cocoa.h"
 // #include "base/mac/scoped_nsobject.h"
 // #include "base/macros.h"
 // #include "ui/accessibility/ax_export.h"
 // #include "ui/accessibility/platform/ax_platform_node_base.h"
 
-@class AXPlatformNodeCocoa;
+@class BrowserAccessibilityCocoa;
 
 namespace ax {
 
@@ -43,7 +43,7 @@ class AXPlatformNodeMac : public AXPlatformNodeBase {
  private:
   ~AXPlatformNodeMac() override;
 
-  fml::scoped_nsobject<AXPlatformNodeCocoa> native_node_;
+  fml::scoped_nsobject<BrowserAccessibilityCocoa> native_node_;
 
   FML_DISALLOW_COPY_AND_ASSIGN(AXPlatformNodeMac);
 };

@@ -274,16 +274,11 @@ void FlutterAccessibilityMac::OnAccessibilityEvent(AXEventGenerator::TargetedEve
         computeTextEdit(deleted_text, inserted_text, &edit_text_marker);
         NSDictionary* user_info = GetUserInfoForValueChangedNotification(
             native_node, deleted_text, inserted_text, edit_text_marker);
-        FireNativeMacNotification(
-            native_node, mac_notification);
-        FireNativeMacNotification(
-            [NSApp mainWindow], mac_notification);
+        NSLog(@"user_info is %@", user_info);
         FireNativeMacNotificationWithUserInfo(
             native_node, mac_notification, user_info);
         FireNativeMacNotificationWithUserInfo(
             GetBridge()->GetFlutterAccessibilityFromID(kRootNode)->GetNativeViewAccessible(), mac_notification, user_info);
-        FireNativeMacNotificationWithUserInfo(
-            [NSApp mainWindow], mac_notification, user_info);
         return;
       }
       break;

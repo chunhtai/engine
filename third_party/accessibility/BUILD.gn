@@ -75,7 +75,6 @@ source_set("accessibility") {
     "ax/ax_mode_observer.h",
     "ax/ax_mode.cc",
     "ax/ax_mode.h",
-    "ax/ax_offscreen_result.h",
     "ax/ax_node_data.cc",
     "ax/ax_node_data.h",
     "ax/ax_node_position.cc",
@@ -84,7 +83,9 @@ source_set("accessibility") {
     "ax/ax_node_text_styles.h",
     "ax/ax_node.cc",
     "ax/ax_node.h",
+    "ax/ax_offscreen_result.h",
     "ax/ax_position.h",
+    "ax/ax_range.h",
     "ax/ax_relative_bounds.cc",
     "ax/ax_relative_bounds.h",
     "ax/ax_role_properties.cc",
@@ -117,6 +118,8 @@ source_set("accessibility") {
     sources += [
       "ax/platform/ax_platform_node_mac.h",
       "ax/platform/ax_platform_node_mac.mm",
+      "ax/platform/browser_accessibility_cocoa.h",
+      "ax/platform/browser_accessibility_cocoa.mm",
     ]
   }
 
