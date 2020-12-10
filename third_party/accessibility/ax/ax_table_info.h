@@ -2,18 +2,17 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef UI_ACCESSIBILITY_AX_TABLE_INFO_H_
-#define UI_ACCESSIBILITY_AX_TABLE_INFO_H_
+#ifndef ACCESSIBILITY_AX_AX_TABLE_INFO_H_
+#define ACCESSIBILITY_AX_AX_TABLE_INFO_H_
 
 #include <map>
 #include <set>
 #include <unordered_map>
 #include <vector>
 
-#include "base/optional.h"
-#include "ui/accessibility/ax_export.h"
+#include "ax_export.h"
 
-namespace ui {
+namespace ax {
 
 class AXTree;
 class AXNode;
@@ -120,6 +119,6 @@ class AX_EXPORT AXTableInfo {
   std::map<int, std::map<int, CellData>> incremental_row_col_map_;
 };
 
-}  // namespace ui
+}  // namespace ax
 
 #endif  // UI_ACCESSIBILITY_AX_TABLE_INFO
