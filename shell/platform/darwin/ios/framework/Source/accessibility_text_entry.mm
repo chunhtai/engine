@@ -130,7 +130,8 @@ static TextInputSemanticsObject* _active;
   NSString* method = call.method;
   id args = call.arguments;
   if ([method isEqualToString:@"TextInput.show"]) {
-    // [self showTextInput];
+    NSLog(@"TextInput show");
+    [self becomeFirstResponder];
     result(nil);
   } else if ([method isEqualToString:@"TextInput.hide"]) {
     // [self hideTextInput];
