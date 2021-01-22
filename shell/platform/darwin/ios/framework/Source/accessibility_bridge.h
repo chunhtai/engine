@@ -64,7 +64,7 @@ class AccessibilityBridge final : public AccessibilityBridgeIos {
   void AccessibilityObjectDidBecomeFocused(int32_t id) override;
   void AccessibilityObjectDidLoseFocus(int32_t id) override;
 
-  UIView<UITextInput>* textInputView() override;
+  id textInputDelegate() override;
 
   UIView* view() const override { return view_controller_.view; }
 

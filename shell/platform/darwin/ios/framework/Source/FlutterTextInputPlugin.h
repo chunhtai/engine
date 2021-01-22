@@ -41,6 +41,7 @@
 @property(nonatomic, readonly) NSRange range;
 
 + (instancetype)rangeWithNSRange:(NSRange)range;
+- (instancetype)initWithNSRange:(NSRange)range;
 
 @end
 

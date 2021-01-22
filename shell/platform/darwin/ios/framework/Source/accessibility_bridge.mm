@@ -66,8 +66,8 @@ AccessibilityBridge::~AccessibilityBridge() {
   view_controller_.view.accessibilityElements = nil;
 }
 
-UIView<UITextInput>* AccessibilityBridge::textInputView() {
-  return [[platform_view_->GetOwnerViewController().get().engine textInputPlugin] textInputView];
+id AccessibilityBridge::textInputDelegate() {
+  return platform_view_->GetOwnerViewController().get().engine;
 }
 
 void AccessibilityBridge::AccessibilityObjectDidBecomeFocused(int32_t id) {
