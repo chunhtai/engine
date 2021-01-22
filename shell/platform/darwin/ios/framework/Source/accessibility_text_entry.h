@@ -62,6 +62,8 @@
 @property(nonatomic) BOOL isVisibleToAutofill;
 
 - (void)setEditableTransform:(NSArray*)matrix;
+- (void)handleMethodCall:(FlutterMethodCall*)call
+                  result:(FlutterResult)result;
 @end
 
 #endif  // SHELL_PLATFORM_IOS_FRAMEWORK_SOURCE_ACCESSIBILITY_TEXT_ENTRY_H_

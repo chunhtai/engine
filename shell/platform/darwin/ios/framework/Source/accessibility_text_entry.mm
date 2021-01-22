@@ -28,6 +28,8 @@ const CGRect kInvalidFirstRect = {{-1, -1}, {9999, 9999}};
 
 @synthesize tokenizer = _tokenizer;
 
+static TextInputSemanticsObject* _active;
+
 - (instancetype)initWithBridge:(fml::WeakPtr<flutter::AccessibilityBridgeIos>)bridge
                            uid:(int32_t)uid {
   self = [super initWithBridge:bridge uid:uid];
@@ -68,6 +70,10 @@ const CGRect kInvalidFirstRect = {{-1, -1}, {9999, 9999}};
 - (void)dealloc {
   [_tokenizer release];
   [super dealloc];
+}
+
++ (TextInputSemanticsObject*)active {
+  return _active;
 }
 
 - (void)setTextInputClient:(int)client {
@@ -130,7 +136,7 @@ const CGRect kInvalidFirstRect = {{-1, -1}, {9999, 9999}};
     // [self hideTextInput];
     result(nil);
   } else if ([method isEqualToString:@"TextInput.setClient"]) {
-    [self setTextInputClient:[args[0] intValue] withConfiguration:args[1]];
+    [self setTextInputClient:[args[0] intValue]];
     result(nil);
   } else if ([method isEqualToString:@"TextInput.setEditingState"]) {
     [self setTextInputState:args];
@@ -139,7 +145,7 @@ const CGRect kInvalidFirstRect = {{-1, -1}, {9999, 9999}};
     [self setTextInputClient:0];
     result(nil);
   } else if ([method isEqualToString:@"TextInput.setEditableSizeAndTransform"]) {
-    [self setEditableTransform::args[@"transform"]];
+    [self setEditableTransform:args[@"transform"]];
     result(nil);
   } else if ([method isEqualToString:@"TextInput.setMarkedTextRect"]) {
     [self updateMarkedRect:args];
@@ -160,7 +166,11 @@ const CGRect kInvalidFirstRect = {{-1, -1}, {9999, 9999}};
   if ([self node].HasFlag(flutter::SemanticsFlags::kIsFocused)) {
     // The text input view must have a non-trivial size for the accessibility
     // system to send text editing events.
-    active
+    _active = self;
+  } else {
+    if (_active == self) {
+      _active = nil;
+    }
   }
 }
 
@@ -690,32 +700,33 @@ const CGRect kInvalidFirstRect = {{-1, -1}, {9999, 9999}};
 #pragma mark - UIKeyInput Overrides
 
 - (void)updateEditingState {
-  // NSUInteger selectionBase = ((FlutterTextPosition*)_selectedTextRange.start).index;
-  // NSUInteger selectionExtent = ((FlutterTextPosition*)_selectedTextRange.end).index;
+  NSUInteger selectionBase = ((FlutterTextPosition*)_selectedTextRange.start).index;
+  NSUInteger selectionExtent = ((FlutterTextPosition*)_selectedTextRange.end).index;
 
-  // // Empty compositing range is represented by the framework's TextRange.empty.
-  // NSInteger composingBase = -1;
-  // NSInteger composingExtent = -1;
-  // if (self.markedTextRange != nil) {
-  //   composingBase = ((FlutterTextPosition*)self.markedTextRange.start).index;
-  //   composingExtent = ((FlutterTextPosition*)self.markedTextRange.end).index;
-  // }
+  // Empty compositing range is represented by the framework's TextRange.empty.
+  NSInteger composingBase = -1;
+  NSInteger composingExtent = -1;
+  if (self.markedTextRange != nil) {
+    composingBase = ((FlutterTextPosition*)self.markedTextRange.start).index;
+    composingExtent = ((FlutterTextPosition*)self.markedTextRange.end).index;
+  }
 
-  // NSDictionary* state = @{
-  //   @"selectionBase" : @(selectionBase),
-  //   @"selectionExtent" : @(selectionExtent),
-  //   @"selectionAffinity" : @(_selectionAffinity),
-  //   @"selectionIsDirectional" : @(false),
-  //   @"composingBase" : @(composingBase),
-  //   @"composingExtent" : @(composingExtent),
-  //   @"text" : [NSString stringWithString:self.text],
-  // };
+  NSDictionary* state = @{
+    @"selectionBase" : @(selectionBase),
+    @"selectionExtent" : @(selectionExtent),
+    @"selectionAffinity" : @(_selectionAffinity),
+    @"selectionIsDirectional" : @(false),
+    @"composingBase" : @(composingBase),
+    @"composingExtent" : @(composingExtent),
+    @"text" : [NSString stringWithString:self.text],
+  };
 
   // if (_textInputClient == 0 && _autofillId != nil) {
   //   [_textInputDelegate updateEditingClient:_textInputClient withState:state withTag:_autofillId];
   // } else {
   //   [_textInputDelegate updateEditingClient:_textInputClient withState:state];
   // }
+  [_textInputDelegate updateEditingClient:_textInputClient withState:state];
 }
 
 - (BOOL)hasText {

@@ -28,6 +28,7 @@
 #import "flutter/shell/platform/darwin/ios/framework/Source/platform_message_response_darwin.h"
 #import "flutter/shell/platform/darwin/ios/framework/Source/profiler_metrics_ios.h"
 #import "flutter/shell/platform/darwin/ios/framework/Source/vsync_waiter_ios.h"
+#import "flutter/shell/platform/darwin/ios/framework/Source/accessibility_text_entry.h"
 #import "flutter/shell/platform/darwin/ios/platform_view_ios.h"
 #import "flutter/shell/platform/darwin/ios/rendering_api_selection.h"
 #include "flutter/shell/profiling/sampling_profiler.h"
@@ -499,9 +500,9 @@ static constexpr int kNumProfilerSamplesPerSec = 5;
           }
         }];
 
-    FlutterTextInputPlugin* textInputPlugin = _textInputPlugin.get();
+    // FlutterTextInputPlugin* textInputPlugin = _textInputPlugin.get();
     [_textInputChannel.get() setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
-      [textInputPlugin handleMethodCall:call result:result];
+      [TextInputSemanticsObject.active handleMethodCall:call result:result];
     }];
   }
 }
