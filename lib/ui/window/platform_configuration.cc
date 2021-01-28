@@ -17,6 +17,7 @@
 #include "third_party/tonic/dart_microtask_queue.h"
 #include "third_party/tonic/logging/dart_invoke.h"
 #include "third_party/tonic/typed_data/dart_byte_data.h"
+#include "third_party/dart/runtime/vm/os_thread.h"
 
 namespace flutter {
 namespace {
@@ -45,6 +46,11 @@ void Render(Dart_NativeArguments args) {
     return;
   }
   UIDartState::Current()->platform_configuration()->client()->Render(scene);
+}
+
+void getStack(Dart_NativeArguments args) {
+  dart::OSThread* current = dart::OSThread::Current();
+  FML_LOG(ERROR) << "current.stack_base() =" <<current->stack_base() << " avaible stack size=" << current->stack_limit() - current->stack_base()<< ", stack size = "<< dart::OSThread::GetCurrentStackPointer() - current->stack_base();
 }
 
 void UpdateSemantics(Dart_NativeArguments args) {
@@ -455,6 +461,7 @@ void PlatformConfiguration::RegisterNatives(
       {"PlatformConfiguration_respondToPlatformMessage",
        _RespondToPlatformMessage, 3, true},
       {"PlatformConfiguration_render", Render, 3, true},
+      {"PlatformConfiguration_getStack", getStack, 1, true},
       {"PlatformConfiguration_updateSemantics", UpdateSemantics, 2, true},
       {"PlatformConfiguration_setIsolateDebugName", SetIsolateDebugName, 2,
        true},

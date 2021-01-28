@@ -308,6 +308,9 @@ class SingletonFlutterWindow extends FlutterWindow {
   SingletonFlutterWindow._(Object windowId, PlatformDispatcher platformDispatcher)
       : super._(windowId, platformDispatcher);
 
+  void getStack() => _getStack();
+  void _getStack() native 'PlatformConfiguration_getStack';
+
   /// A callback that is invoked whenever the [devicePixelRatio],
   /// [physicalSize], [padding], [viewInsets], [PlatformDispatcher.views], or
   /// [systemGestureInsets] values change.
