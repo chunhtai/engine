@@ -50,7 +50,9 @@ void Render(Dart_NativeArguments args) {
 
 void getStack(Dart_NativeArguments args) {
   dart::OSThread* current = dart::OSThread::Current();
-  FML_LOG(ERROR) << "current.stack_base() =" <<current->stack_base() << " avaible stack size=" << current->stack_limit() - current->stack_base()<< ", stack size = "<< dart::OSThread::GetCurrentStackPointer() - current->stack_base();
+  std::string result = std::to_string(current->stack_base() - dart::OSThread::GetCurrentStackPointer());
+  Dart_SetReturnValue(args, tonic::StdStringToDart(result));
+  FML_LOG(ERROR) << "current.stack_base() =" <<current->stack_base() << " avaible stack size=" << current->stack_base() - current->stack_limit() << ", stack size = "<< current->stack_base() - dart::OSThread::GetCurrentStackPointer();
 }
 
 void UpdateSemantics(Dart_NativeArguments args) {
