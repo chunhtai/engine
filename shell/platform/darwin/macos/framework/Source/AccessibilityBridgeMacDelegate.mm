@@ -148,22 +148,31 @@ AccessibilityBridgeMacDelegate::MacOSEventsFromAXEvent(ui::AXEventGenerator::Eve
       });
       break;
     case ui::AXEventGenerator::Event::VALUE_CHANGED:
+      // events.push_back({
+      //     .name = NSAccessibilityValueChangedNotification,
+      //     .target = native_node,
+      //     .user_info = nil,
+      // });
+      // if (@available(macOS 10.11, *)) {
+      //   if (ax_node.data().HasState(ax::mojom::State::kEditable)) {
+      //     NSLog(@"fires NSAccessibilityValueChangedNotification");
+      //     events.push_back({
+      //         .name = NSAccessibilityValueChangedNotification,
+      //         .target = bridge->GetFlutterPlatformNodeDelegateFromID(kRootNode)
+      //                       .lock()
+      //                       ->GetNativeViewAccessible(),
+      //         .user_info = nil,
+      //     });
+      //   }
+      // }
       events.push_back({
-          .name = NSAccessibilityValueChangedNotification,
-          .target = native_node,
-          .user_info = nil,
+        .name = NSAccessibilityAnnouncementRequestedNotification,
+        .target = [NSApp mainWindow],
+        .user_info = @{
+          NSAccessibilityAnnouncementKey: @"a",
+          NSAccessibilityPriorityKey: @(NSAccessibilityPriorityHigh),
+        },
       });
-      if (@available(macOS 10.11, *)) {
-        if (ax_node.data().HasState(ax::mojom::State::kEditable)) {
-          events.push_back({
-              .name = NSAccessibilityValueChangedNotification,
-              .target = bridge->GetFlutterPlatformNodeDelegateFromID(kRootNode)
-                            .lock()
-                            ->GetNativeViewAccessible(),
-              .user_info = nil,
-          });
-        }
-      }
       break;
     case ui::AXEventGenerator::Event::LIVE_REGION_CREATED:
       events.push_back({

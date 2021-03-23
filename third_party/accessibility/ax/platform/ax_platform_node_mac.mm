@@ -780,6 +780,7 @@ bool AlsoUseShowMenuActionForDefaultAction(const ui::AXNodeData& data) {
 }
 
 - (id)accessibilityValue {
+  NSLog(@"called accessibilityValue");
   return [self AXValueInternal];
 }
 
@@ -905,16 +906,19 @@ bool AlsoUseShowMenuActionForDefaultAction(const ui::AXNodeData& data) {
 // the old API as well).
 
 - (NSInteger)accessibilityInsertionPointLineNumber {
+  NSLog(@"called accessibilityInsertionPointLineNumber on id =%d", _node->GetData().id);
   return [[self AXInsertionPointLineNumberInternal] integerValue];
 }
 
 - (NSInteger)accessibilityNumberOfCharacters {
+  NSLog(@"called accessibilityNumberOfCharacters on id =%d", _node->GetData().id);
   if (!_node)
     return 0;
   return [[self AXNumberOfCharactersInternal] integerValue];
 }
 
 - (NSString*)accessibilityPlaceholderValue {
+  NSLog(@"called accessibilityPlaceholderValue on id =%d", _node->GetData().id);
   if (!_node)
     return nil;
 
@@ -922,6 +926,7 @@ bool AlsoUseShowMenuActionForDefaultAction(const ui::AXNodeData& data) {
 }
 
 - (NSString*)accessibilitySelectedText {
+  NSLog(@"called accessibilitySelectedText on id =%d", _node->GetData().id);
   if (!_node)
     return nil;
 
@@ -934,10 +939,13 @@ bool AlsoUseShowMenuActionForDefaultAction(const ui::AXNodeData& data) {
 
   NSRange r;
   [[self AXSelectedTextRangeInternal] getValue:&r];
+  // r.location = MAX(r.location - 1, 10);
+  NSLog(@"called accessibilitySelectedTextRange on id =%d, result = %@", _node->GetData().id, NSStringFromRange(r));
   return r;
 }
 
 - (NSArray*)accessibilitySelectedTextRanges {
+  NSLog(@"called accessibilitySelectedTextRanges on id =%d", _node->GetData().id);
   if (!_node)
     return nil;
 
@@ -945,6 +953,7 @@ bool AlsoUseShowMenuActionForDefaultAction(const ui::AXNodeData& data) {
 }
 
 - (NSRange)accessibilitySharedCharacterRange {
+  NSLog(@"called accessibilitySharedCharacterRange on id =%d", _node->GetData().id);
   if (!_node)
     return NSMakeRange(0, 0);
 
@@ -954,6 +963,7 @@ bool AlsoUseShowMenuActionForDefaultAction(const ui::AXNodeData& data) {
 }
 
 - (NSArray*)accessibilitySharedTextUIElements {
+  NSLog(@"called accessibilitySharedTextUIElements on id =%d", _node->GetData().id);
   if (!_node)
     return nil;
 
@@ -963,11 +973,14 @@ bool AlsoUseShowMenuActionForDefaultAction(const ui::AXNodeData& data) {
 - (NSRange)accessibilityVisibleCharacterRange {
   if (!_node)
     return NSMakeRange(0, 0);
-
-  return [[self AXVisibleCharacterRangeInternal] rangeValue];
+  NSRange r = [[self AXVisibleCharacterRangeInternal] rangeValue];
+  // r.length = MAX(r.length - 1, 10);
+  NSLog(@"called accessibilityVisibleCharacterRange on id =%d result = %@", _node->GetData().id, NSStringFromRange(r));
+  return NSMakeRange(0,10);
 }
 
 - (NSString*)accessibilityStringForRange:(NSRange)range {
+  NSLog(@"called accessibilityStringForRange on id =%d", _node->GetData().id);
   if (!_node)
     return nil;
 
@@ -979,37 +992,44 @@ bool AlsoUseShowMenuActionForDefaultAction(const ui::AXNodeData& data) {
     return nil;
   // TODO(https://crbug.com/958811): Implement this for real.
   base::scoped_nsobject<NSAttributedString> attributedString(
-      [[NSAttributedString alloc] initWithString:[self accessibilityStringForRange:range]]);
+      [[NSAttributedString alloc] initWithString:[[self getAXValueAsString] substringWithRange:range]]);
+  NSLog(@"called accessibilityAttributedStringForRange on id =%d, range = %@, result = %@", _node->GetData().id, NSStringFromRange(range), [[NSAttributedString alloc] initWithString:[[self getAXValueAsString] substringWithRange:range]]);
   return attributedString.autorelease();
 }
 
 - (NSData*)accessibilityRTFForRange:(NSRange)range {
+  NSLog(@"called accessibilityRTFForRange on id =%d", _node->GetData().id);
   return nil;
 }
 
 - (NSRect)accessibilityFrameForRange:(NSRange)range {
+  NSLog(@"called accessibilityFrameForRange on id =%d", _node->GetData().id);
   return NSZeroRect;
 }
 
 - (NSInteger)accessibilityLineForIndex:(NSInteger)index {
+  NSLog(@"called accessibilityLineForIndex on id =%d", _node->GetData().id);
   // Views textfields are single-line.
   return 0;
 }
 
 - (NSRange)accessibilityRangeForIndex:(NSInteger)index {
+  NSLog(@"called accessibilityRangeForIndex on id =%d", _node->GetData().id);
   BASE_UNREACHABLE();
   return NSMakeRange(0, 0);
 }
 
 - (NSRange)accessibilityStyleRangeForIndex:(NSInteger)index {
+  NSLog(@"called accessibilityStyleRangeForIndex on id =%d, index = %ld result = (%d, %ld)", _node->GetData().id, index, 0, [[self AXNumberOfCharactersInternal] integerValue]);
   if (!_node)
     return NSMakeRange(0, 0);
 
   // TODO(https://crbug.com/958811): Implement this for real.
-  return NSMakeRange(0, [self accessibilityNumberOfCharacters]);
+  return NSMakeRange(0, 10);
 }
 
 - (NSRange)accessibilityRangeForLine:(NSInteger)line {
+  NSLog(@"called accessibilityRangeForLine on id =%d", _node->GetData().id);
   if (!_node)
     return NSMakeRange(0, 0);
 
@@ -1017,10 +1037,11 @@ bool AlsoUseShowMenuActionForDefaultAction(const ui::AXNodeData& data) {
     BASE_LOG() << "Views textfields are single-line.";
     BASE_UNREACHABLE();
   }
-  return NSMakeRange(0, [self accessibilityNumberOfCharacters]);
+  return NSMakeRange(0, [[self AXNumberOfCharactersInternal] integerValue]);
 }
 
 - (NSRange)accessibilityRangeForPosition:(NSPoint)point {
+  NSLog(@"called accessibilityRangeForPosition on id =%d", _node->GetData().id);
   BASE_UNREACHABLE();
   return NSMakeRange(0, 0);
 }
