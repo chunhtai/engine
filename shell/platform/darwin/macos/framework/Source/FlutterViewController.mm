@@ -17,7 +17,6 @@
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterMouseCursorPlugin.h"
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterOpenGLRenderer.h"
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterRenderingBackend.h"
-#import "flutter/shell/platform/darwin/macos/framework/Source/FlutterTextInputPlugin.h"
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterView.h"
 #import "flutter/shell/platform/embedder/embedder.h"
 
@@ -200,7 +199,7 @@ static void CommonInit(FlutterViewController* controller) {
                                        allowHeadlessExecution:NO];
   }
   controller->_mouseTrackingMode = FlutterMouseTrackingModeInKeyWindow;
-
+  controller.textInputPlugin = [[FlutterTextInputPlugin alloc] initWithViewController:controller];
   NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
   // macOS fires this private message when voiceover turns on or off.
   [center addObserver:controller
@@ -282,6 +281,7 @@ static void CommonInit(FlutterViewController* controller) {
 }
 
 - (void)viewDidLoad {
+  [[NSApp mainWindow].contentView addSubview:_textInputPlugin];
   [self configureTrackingArea];
 }
 
@@ -406,8 +406,7 @@ static void CommonInit(FlutterViewController* controller) {
                                                          binaryMessenger:_engine.binaryMessenger
                                                                    codec:[FlutterJSONMessageCodec
                                                                              sharedInstance]]]];
-  [_keyboardManager
-      addSecondaryResponder:[[FlutterTextInputPlugin alloc] initWithViewController:self]];
+  [_keyboardManager addSecondaryResponder:_textInputPlugin];
   _settingsChannel =
       [FlutterBasicMessageChannel messageChannelWithName:@"flutter/settings"
                                          binaryMessenger:_engine.binaryMessenger

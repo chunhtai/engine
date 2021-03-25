@@ -22,6 +22,8 @@ class FlutterPlatformNodeDelegateMac : public FlutterPlatformNodeDelegate {
   explicit FlutterPlatformNodeDelegateMac(__weak FlutterEngine* engine);
   virtual ~FlutterPlatformNodeDelegateMac();
 
+  void Init(std::weak_ptr<OwnerBridge> bridge, ui::AXNode* node) override;
+
   //---------------------------------------------------------------------------
   /// @brief      Gets the live region text of this node in UTF-8 format. This
   ///             is useful to determine the changes in between semantics

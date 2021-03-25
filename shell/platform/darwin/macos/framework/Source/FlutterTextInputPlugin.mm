@@ -68,7 +68,7 @@ static flutter::TextRange RangeFromBaseExtent(NSNumber* base,
 /**
  * Private properties of FlutterTextInputPlugin.
  */
-@interface FlutterTextInputPlugin () <NSTextInputClient>
+@interface FlutterTextInputPlugin ()
 
 /**
  * A text input context, representing a connection to the Cocoa text input system.
@@ -150,7 +150,7 @@ static flutter::TextRange RangeFromBaseExtent(NSNumber* base,
 }
 
 - (instancetype)initWithViewController:(FlutterViewController*)viewController {
-  self = [super init];
+  self = [super initWithFrame:NSMakeRect(20,20,100,140)];
   if (self != nil) {
     _channel = [FlutterMethodChannel methodChannelWithName:kTextInputChannel
                                            binaryMessenger:viewController.engine.binaryMessenger

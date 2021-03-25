@@ -5,8 +5,9 @@
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterPlatformNodeDelegateMac.h"
 
 #import "flutter/shell/platform/darwin/macos/framework/Headers/FlutterAppDelegate.h"
-#import "flutter/shell/platform/darwin/macos/framework/Headers/FlutterViewController.h"
+#import "flutter/shell/platform/darwin/macos/framework/Source/FlutterViewController_Internal.h"
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterEngine_Internal.h"
+#import "flutter/shell/platform/darwin/macos/framework/Source/FlutterTextInputSemanticsObject.h"
 
 #include "flutter/shell/platform/common/accessibility_bridge.h"
 #include "flutter/third_party/accessibility/ax/ax_action_data.h"
@@ -15,17 +16,27 @@
 #include "flutter/third_party/accessibility/ax/platform/ax_platform_node_base.h"
 #include "flutter/third_party/accessibility/base/string_utils.h"
 #include "flutter/third_party/accessibility/gfx/geometry/rect_conversions.h"
+#include "flutter/third_party/accessibility/gfx/mac/coordinate_conversion.h"
 
 namespace flutter {  // namespace
 
 FlutterPlatformNodeDelegateMac::FlutterPlatformNodeDelegateMac(FlutterEngine* engine)
-    : engine_(engine) {
-  ax_platform_node_ = ui::AXPlatformNode::Create(this);
+    : engine_(engine) { }
+
+void FlutterPlatformNodeDelegateMac::Init(std::weak_ptr<OwnerBridge> bridge,
+                                       ui::AXNode* node) {
+  FlutterPlatformNodeDelegate::Init(bridge, node);
+  if (GetData().IsTextField()) {
+    ax_platform_node_ = new FlutterTextPlatformNode(this, engine_.viewController.textInputPlugin);
+  } else {
+    ax_platform_node_ = ui::AXPlatformNode::Create(this);
+  }
   NSCAssert(ax_platform_node_, @"Failed to create platform node.");
 }
 
 FlutterPlatformNodeDelegateMac::~FlutterPlatformNodeDelegateMac() {
   ax_platform_node_->Destroy();
+  delete ax_platform_node_;
 }
 
 gfx::NativeViewAccessible FlutterPlatformNodeDelegateMac::GetNativeViewAccessible() {

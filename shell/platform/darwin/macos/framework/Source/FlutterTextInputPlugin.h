@@ -17,7 +17,7 @@
  * This is not an FlutterPlugin since it needs access to FlutterViewController internals, so needs
  * to be managed differently.
  */
-@interface FlutterTextInputPlugin : NSObject <FlutterKeySecondaryResponder>
+@interface FlutterTextInputPlugin : NSView <FlutterKeySecondaryResponder, NSTextInputClient>
 
 /**
  * Initializes a text input plugin that coordinates key event handling with |viewController|.
