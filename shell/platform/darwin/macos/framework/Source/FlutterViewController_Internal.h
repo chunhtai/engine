@@ -11,7 +11,7 @@
 @interface FlutterViewController ()
 
 // The FlutterView for this view controller.
-@property(nonatomic, readonly, nullable) FlutterView* flutterView;
+@property(nonatomic, strong, nullable) FlutterView* flutterView;
 
 /**
  * This just returns the NSPasteboard so that it can be mocked in the tests.
@@ -22,6 +22,11 @@
  * This just returns the NSPasteboard so that it can be mocked in the tests.
  */
 @property(nonatomic, strong, nonnull) FlutterTextInputPlugin* textInputPlugin;
+
+/**
+ * This just returns the NSPasteboard so that it can be mocked in the tests.
+ */
+@property(nonatomic, strong, nonnull) NSTextField* textField;
 
 /**
  * Initializes this FlutterViewController with the specified `FlutterEngine`.

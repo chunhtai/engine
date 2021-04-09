@@ -5,6 +5,7 @@
 #import <Cocoa/Cocoa.h>
 
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterTextInputPlugin.h"
+#import "flutter/shell/platform/darwin/macos/framework/Source/FlutterPlatformNodeDelegateMac.h"
 
 #include "flutter/third_party/accessibility/ax/platform/ax_platform_node_base.h"
 
@@ -14,20 +15,21 @@ namespace flutter {
 
 class FlutterTextPlatformNode : public ui::AXPlatformNodeBase {
  public:
-  FlutterTextPlatformNode(ui::AXPlatformNodeDelegate* delegate, FlutterTextInputPlugin* plugin);
+  FlutterTextPlatformNode(FlutterPlatformNodeDelegate* delegate, FlutterEngine* engine);
   ~FlutterTextPlatformNode() override;
   // AXPlatformNodeMac.
   gfx::NativeViewAccessible GetNativeViewAccessible() override;
  private:
-  FlutterTextPlatformNodeCocoa* native_node_;
+  // FlutterTextPlatformNodeCocoa* native_node_;
+  NSTextField* plugin_;
 };
 
 } // namespace flutter
 
-@interface FlutterTextPlatformNodeCocoa : NSAccessibilityElement <NSAccessibility, NSTextInputClient>
+@interface FlutterTextPlatformNodeCocoa : NSAccessibilityElement <NSAccessibility>
 
 - (instancetype)initWithNode:(ui::AXPlatformNodeBase*)node
-                      plugin:(FlutterTextInputPlugin*)plugin;
+                      plugin:(NSTextField*)plugin;
 
 @end
 

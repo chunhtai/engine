@@ -76,6 +76,27 @@ struct MouseState {
 
 #pragma mark - Private interface declaration.
 
+@interface FlutterContentView : NSView
+@end
+
+@implementation FlutterContentView {
+  FlutterView* _flutterView;
+}
+
+- (instancetype)initWithFlutterView:(FlutterView*)view {
+  self = [super initWithFrame:view.frame];
+  if (self) {
+    _flutterView = view;
+  }
+  return self;
+}
+
+- (void)setFrameSize:(NSSize)newSize {
+  [super setFrameSize:newSize];
+  [_flutterView setFrameSize:newSize];
+}
+@end
+
 /**
  * Private interface declaration for FlutterViewController.
  */
@@ -200,6 +221,11 @@ static void CommonInit(FlutterViewController* controller) {
   }
   controller->_mouseTrackingMode = FlutterMouseTrackingModeInKeyWindow;
   controller.textInputPlugin = [[FlutterTextInputPlugin alloc] initWithViewController:controller];
+  NSRect frameRect = NSMakeRect(20,20,100,140);
+  controller.textField = [[NSTextField alloc] initWithFrame:frameRect];
+  controller.textField.textColor = NSColor.redColor;
+  // controller.textField.bezeled         = NO;
+  // controller.textField.drawsBackground = NO;
   NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
   // macOS fires this private message when voiceover turns on or off.
   [center addObserver:controller
@@ -277,11 +303,14 @@ static void CommonInit(FlutterViewController* controller) {
     }
     flutterView = [[FlutterView alloc] initWithMainContext:mainContext reshapeListener:self];
   }
-  self.view = flutterView;
+  FlutterContentView* parent = [[FlutterContentView alloc] initWithFlutterView:flutterView];
+  [parent addSubview:flutterView];
+  // [parent addSubview:self.textField];
+  self.view = parent;
+  self.flutterView = flutterView;
 }
 
 - (void)viewDidLoad {
-  [[NSApp mainWindow].contentView addSubview:_textInputPlugin];
   [self configureTrackingArea];
 }
 
@@ -314,11 +343,11 @@ static void CommonInit(FlutterViewController* controller) {
   [self configureTrackingArea];
 }
 
-#pragma mark - Framework-internal methods
+// #pragma mark - Framework-internal methods
 
-- (FlutterView*)flutterView {
-  return static_cast<FlutterView*>(self.view);
-}
+// - (FlutterView*)flutterView {
+//   return static_cast<FlutterView*>(self.flutterView);
+// }
 
 #pragma mark - Private methods
 
@@ -349,8 +378,8 @@ static void CommonInit(FlutterViewController* controller) {
                                    handler:^NSEvent*(NSEvent* event) {
                                      // Intercept keyUp only for events triggered on the current
                                      // view.
-                                     if (weakSelf.view &&
-                                         ([[event window] firstResponder] == weakSelf.view) &&
+                                     if (weakSelf.flutterView &&
+                                         ([[event window] firstResponder] == weakSelf.flutterView) &&
                                          ([event modifierFlags] & NSEventModifierFlagCommand) &&
                                          ([event type] == NSEventTypeKeyUp))
                                        [weakSelf keyUp:event];
@@ -359,7 +388,7 @@ static void CommonInit(FlutterViewController* controller) {
 }
 
 - (void)configureTrackingArea {
-  if (_mouseTrackingMode != FlutterMouseTrackingModeNone && self.view) {
+  if (_mouseTrackingMode != FlutterMouseTrackingModeNone && self.flutterView) {
     NSTrackingAreaOptions options =
         NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved | NSTrackingInVisibleRect;
     switch (_mouseTrackingMode) {
@@ -380,9 +409,9 @@ static void CommonInit(FlutterViewController* controller) {
                                                  options:options
                                                    owner:self
                                                 userInfo:nil];
-    [self.view addTrackingArea:_trackingArea];
+    [self.flutterView addTrackingArea:_trackingArea];
   } else if (_trackingArea) {
-    [self.view removeTrackingArea:_trackingArea];
+    [self.flutterView removeTrackingArea:_trackingArea];
     _trackingArea = nil;
   }
 }
@@ -451,8 +480,8 @@ static void CommonInit(FlutterViewController* controller) {
     [self dispatchMouseEvent:addEvent phase:kAdd];
   }
 
-  NSPoint locationInView = [self.view convertPoint:event.locationInWindow fromView:nil];
-  NSPoint locationInBackingCoordinates = [self.view convertPointToBacking:locationInView];
+  NSPoint locationInView = [self.flutterView convertPoint:event.locationInWindow fromView:nil];
+  NSPoint locationInBackingCoordinates = [self.flutterView convertPointToBacking:locationInView];
   FlutterPointerEvent flutterEvent = {
       .struct_size = sizeof(flutterEvent),
       .phase = phase,
@@ -475,7 +504,7 @@ static void CommonInit(FlutterViewController* controller) {
         CFRelease(source);
       }
     }
-    double scaleFactor = self.view.layer.contentsScale;
+    double scaleFactor = self.flutterView.layer.contentsScale;
     flutterEvent.scroll_delta_x = -event.scrollingDeltaX * pixelsPerLine * scaleFactor;
     flutterEvent.scroll_delta_y = -event.scrollingDeltaY * pixelsPerLine * scaleFactor;
   }

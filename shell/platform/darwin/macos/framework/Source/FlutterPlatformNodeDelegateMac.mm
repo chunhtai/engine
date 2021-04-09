@@ -27,7 +27,7 @@ void FlutterPlatformNodeDelegateMac::Init(std::weak_ptr<OwnerBridge> bridge,
                                        ui::AXNode* node) {
   FlutterPlatformNodeDelegate::Init(bridge, node);
   if (GetData().IsTextField()) {
-    ax_platform_node_ = new FlutterTextPlatformNode(this, engine_.viewController.textInputPlugin);
+    ax_platform_node_ = new FlutterTextPlatformNode(this, engine_);
   } else {
     ax_platform_node_ = ui::AXPlatformNode::Create(this);
   }
@@ -48,7 +48,7 @@ gfx::NativeViewAccessible FlutterPlatformNodeDelegateMac::GetParent() {
   gfx::NativeViewAccessible parent = FlutterPlatformNodeDelegate::GetParent();
   if (!parent) {
     NSCAssert(engine_, @"Flutter engine should not be deallocated");
-    return engine_.viewController.view;
+    return engine_.viewController.flutterView;
   }
   return parent;
 }
@@ -105,11 +105,11 @@ gfx::RectF FlutterPlatformNodeDelegateMac::ConvertBoundsFromLocalToScreen(
   __strong FlutterEngine* strong_engine = engine_;
   NSCAssert(strong_engine, @"Flutter engine should not be deallocated");
   NSRect ns_view_bounds =
-      [strong_engine.viewController.view convertRectFromBacking:ns_local_bounds];
-  NSRect ns_window_bounds = [strong_engine.viewController.view convertRect:ns_view_bounds
+      [strong_engine.viewController.flutterView convertRectFromBacking:ns_local_bounds];
+  NSRect ns_window_bounds = [strong_engine.viewController.flutterView convertRect:ns_view_bounds
                                                                     toView:nil];
   NSRect ns_screen_bounds =
-      [[strong_engine.viewController.view window] convertRectToScreen:ns_window_bounds];
+      [[strong_engine.viewController.flutterView window] convertRectToScreen:ns_window_bounds];
   gfx::RectF screen_bounds(ns_screen_bounds.origin.x, ns_screen_bounds.origin.y,
                            ns_screen_bounds.size.width, ns_screen_bounds.size.height);
   return screen_bounds;

@@ -5,32 +5,58 @@
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterTextInputSemanticsObject.h"
 
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterTextInputPlugin.h"
+#import "flutter/shell/platform/darwin/macos/framework/Source/FlutterEngine_Internal.h"
+#import "flutter/shell/platform/darwin/macos/framework/Source/FlutterViewController_Internal.h"
 
 #include "flutter/third_party/accessibility/gfx/mac/coordinate_conversion.h"
+#include "flutter/third_party/accessibility/gfx/geometry/rect_conversions.h"
+
+@interface FlutterTextField : NSTextField
+@end
+
+@implementation FlutterTextField
+
+- (NSView *)hitTest:(NSPoint)point {
+  return nil;
+}
+
+
+
+@end
 
 namespace flutter {
 
-FlutterTextPlatformNode::FlutterTextPlatformNode(ui::AXPlatformNodeDelegate* delegate, FlutterTextInputPlugin* plugin) {
-  native_node_ = [[FlutterTextPlatformNodeCocoa alloc] initWithNode:this
-                                                             plugin:plugin];
+FlutterTextPlatformNode::FlutterTextPlatformNode(FlutterPlatformNodeDelegate* delegate, FlutterEngine* engine) {
+  // native_node_ = [[FlutterTextPlatformNodeCocoa alloc] initWithNode:this
+  //                                                            plugin:plugin];
+
   Init(delegate);
+
+  NSRect rect = NSMakeRect(0, 281, 800, 48);
+  NSLog(@"rect is %@", NSStringFromRect(rect));
+  plugin_ = [[FlutterTextField alloc] initWithFrame:rect];
+  plugin_.bezeled         = NO;
+  plugin_.drawsBackground = NO;
+  plugin_.bordered = NO;
+  plugin_.focusRingType = NSFocusRingTypeNone;
+  [engine.viewController.view addSubview:plugin_ positioned:NSWindowBelow relativeTo:engine.viewController.flutterView];
 }
 
 FlutterTextPlatformNode::~FlutterTextPlatformNode() {}
 
 gfx::NativeViewAccessible FlutterTextPlatformNode::GetNativeViewAccessible() {
-  return native_node_;
+  return plugin_;
 }
 
 }
 
 @implementation FlutterTextPlatformNodeCocoa {
   ui::AXPlatformNodeBase* _node;
-  FlutterTextInputPlugin* _plugin;
+  NSTextField* _plugin;
 }
 
 - (instancetype)initWithNode:(ui::AXPlatformNodeBase*)node
-                      plugin:(FlutterTextInputPlugin*)plugin {
+                      plugin:(NSTextField*)plugin {
   if ((self = [super init])) {
     _node = node;
     _plugin = plugin;
@@ -106,56 +132,56 @@ gfx::NativeViewAccessible FlutterTextPlatformNode::GetNativeViewAccessible() {
 
 #pragma mark NSTextInputClient
 
-- (BOOL)hasMarkedText {
-  return [_plugin hasMarkedText];
-}
+// - (BOOL)hasMarkedText {
+//   return [_plugin hasMarkedText];
+// }
 
-- (NSRange)markedRange {
-  return [_plugin markedRange];
-}
+// - (NSRange)markedRange {
+//   return [_plugin markedRange];
+// }
 
-- (NSRange)selectedRange {
-  return [_plugin selectedRange];
-}
+// - (NSRange)selectedRange {
+//   return [_plugin selectedRange];
+// }
 
-- (void)setMarkedText:(id)string
-        selectedRange:(NSRange)selectedRange
-     replacementRange:(NSRange)replacementRange {
-  [_plugin setMarkedText:string
-           selectedRange:selectedRange
-        replacementRange:replacementRange];
-}
+// - (void)setMarkedText:(id)string
+//         selectedRange:(NSRange)selectedRange
+//      replacementRange:(NSRange)replacementRange {
+//   [_plugin setMarkedText:string
+//            selectedRange:selectedRange
+//         replacementRange:replacementRange];
+// }
 
-- (void)unmarkText {
-  [_plugin unmarkText];
-}
+// - (void)unmarkText {
+//   [_plugin unmarkText];
+// }
 
-- (NSArray<NSString*>*)validAttributesForMarkedText {
-  return [_plugin validAttributesForMarkedText];
-}
+// - (NSArray<NSString*>*)validAttributesForMarkedText {
+//   return [_plugin validAttributesForMarkedText];
+// }
 
-- (NSAttributedString*)attributedSubstringForProposedRange:(NSRange)range
-                                               actualRange:(NSRangePointer)actualRange {
-  return [_plugin attributedSubstringForProposedRange:range
-                                          actualRange:actualRange];
-}
+// - (NSAttributedString*)attributedSubstringForProposedRange:(NSRange)range
+//                                                actualRange:(NSRangePointer)actualRange {
+//   return [_plugin attributedSubstringForProposedRange:range
+//                                           actualRange:actualRange];
+// }
 
-- (void)insertText:(id)string replacementRange:(NSRange)range {
-  [_plugin insertText:string replacementRange:range];
-}
+// - (void)insertText:(id)string replacementRange:(NSRange)range {
+//   [_plugin insertText:string replacementRange:range];
+// }
 
-- (NSUInteger)characterIndexForPoint:(NSPoint)point {
-  return [_plugin characterIndexForPoint:point];
-}
+// - (NSUInteger)characterIndexForPoint:(NSPoint)point {
+//   return [_plugin characterIndexForPoint:point];
+// }
 
-- (NSRect)firstRectForCharacterRange:(NSRange)range actualRange:(NSRangePointer)actualRange {
-  // TODO: Implement.
-  // Note: This function can't easily be implemented under the system-message architecture.
-  return [_plugin firstRectForCharacterRange:range actualRange:actualRange];
-}
+// - (NSRect)firstRectForCharacterRange:(NSRange)range actualRange:(NSRangePointer)actualRange {
+//   // TODO: Implement.
+//   // Note: This function can't easily be implemented under the system-message architecture.
+//   return [_plugin firstRectForCharacterRange:range actualRange:actualRange];
+// }
 
-- (void)doCommandBySelector:(SEL)selector {
-  return [_plugin doCommandBySelector:selector];
-}
+// - (void)doCommandBySelector:(SEL)selector {
+//   return [_plugin doCommandBySelector:selector];
+// }
 
 @end
