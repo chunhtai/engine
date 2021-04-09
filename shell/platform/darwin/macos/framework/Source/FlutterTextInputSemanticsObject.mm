@@ -20,6 +20,10 @@
   return nil;
 }
 
+- (void)setAccessibilityFocused:(BOOL)isFocused {
+  [super setAccessibilityFocused:isFocused];
+  NSLog(@"setAccessibilityFocused %d", isFocused);
+}
 
 
 @end
