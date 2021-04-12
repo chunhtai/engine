@@ -39,7 +39,7 @@ class FlutterPlatformNodeDelegate : public ui::AXPlatformNodeDelegateBase {
    public:
     virtual ~OwnerBridge() = default;
 
-   protected:
+   public:
     friend class FlutterPlatformNodeDelegate;
 
     //---------------------------------------------------------------------------
@@ -129,10 +129,13 @@ class FlutterPlatformNodeDelegate : public ui::AXPlatformNodeDelegateBase {
   ///             Subclasses must call super.
   virtual void Init(std::weak_ptr<OwnerBridge> bridge, ui::AXNode* node);
 
- protected:
   //------------------------------------------------------------------------------
   /// @brief      Gets the underlying ax node for this accessibility node.
   ui::AXNode* GetAXNode() const;
+
+  //------------------------------------------------------------------------------
+  /// @brief      Gets the underlying ax node for this accessibility node.
+  std::weak_ptr<OwnerBridge> GetOwnerBridge() const;
 
  private:
   ui::AXNode* ax_node_;

@@ -5,17 +5,28 @@
 #import "flutter/shell/platform/darwin/macos/framework/Headers/FlutterViewController.h"
 
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterKeySecondaryResponder.h"
+#import "flutter/shell/platform/darwin/macos/framework/Source/FlutterTextInputPlugin.h"
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterView.h"
 
 @interface FlutterViewController ()
 
 // The FlutterView for this view controller.
-@property(nonatomic, readonly, nullable) FlutterView* flutterView;
+@property(nonatomic, strong, nullable) FlutterView* flutterView;
 
 /**
  * This just returns the NSPasteboard so that it can be mocked in the tests.
  */
 @property(nonatomic, readonly, nonnull) NSPasteboard* pasteboard;
+
+/**
+ * This just returns the NSPasteboard so that it can be mocked in the tests.
+ */
+@property(nonatomic, strong, nonnull) FlutterTextInputPlugin* textInputPlugin;
+
+/**
+ * This just returns the NSPasteboard so that it can be mocked in the tests.
+ */
+@property(nonatomic, strong, nonnull) NSTextField* textField;
 
 /**
  * Initializes this FlutterViewController with the specified `FlutterEngine`.

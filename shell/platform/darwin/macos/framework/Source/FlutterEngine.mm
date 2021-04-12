@@ -96,7 +96,7 @@ static FlutterLocale FlutterLocaleFromNSLocale(NSLocale* locale) {
 }
 
 - (NSView*)view {
-  return _flutterEngine.viewController.view;
+  return _flutterEngine.viewController.flutterView;
 }
 
 - (void)addMethodCallDelegate:(nonnull id<FlutterPlugin>)delegate
@@ -420,7 +420,7 @@ static void OnPlatformMessage(const FlutterPlatformMessage* message, FlutterEngi
   if (!_engine) {
     return;
   }
-  NSView* view = _viewController.view;
+  NSView* view = _viewController.flutterView;
   CGRect scaledBounds = [view convertRectToBacking:view.bounds];
   CGSize scaledSize = scaledBounds.size;
   double pixelRatio = view.bounds.size.width == 0 ? 1 : scaledSize.width / view.bounds.size.width;
@@ -458,7 +458,7 @@ static void OnPlatformMessage(const FlutterPlatformMessage* message, FlutterEngi
         std::make_unique<flutter::AccessibilityBridgeMacDelegate>(self));
   }
   if (!_semanticsEnabled) {
-    self.viewController.view.accessibilityChildren = nil;
+    self.viewController.flutterView.accessibilityChildren = nil;
   }
   _embedderAPI.UpdateSemanticsEnabled(_engine, _semanticsEnabled);
 }
@@ -670,12 +670,12 @@ static void OnPlatformMessage(const FlutterPlatformMessage* message, FlutterEngi
     // Attaches the accessibility root to the flutter view.
     auto root = _bridge->GetFlutterPlatformNodeDelegateFromID(0).lock();
     if (root) {
-      if ([self.viewController.view.accessibilityChildren count] == 0) {
+      if ([self.viewController.flutterView.accessibilityChildren count] == 0) {
         NSAccessibilityElement* native_root = root->GetNativeViewAccessible();
-        self.viewController.view.accessibilityChildren = @[ native_root ];
+        self.viewController.flutterView.accessibilityChildren = @[ native_root ];
       }
     } else {
-      self.viewController.view.accessibilityChildren = nil;
+      self.viewController.flutterView.accessibilityChildren = nil;
     }
     return;
   }

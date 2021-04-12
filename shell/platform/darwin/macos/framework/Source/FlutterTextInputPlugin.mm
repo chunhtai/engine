@@ -68,7 +68,7 @@ static flutter::TextRange RangeFromBaseExtent(NSNumber* base,
 /**
  * Private properties of FlutterTextInputPlugin.
  */
-@interface FlutterTextInputPlugin () <NSTextInputClient>
+@interface FlutterTextInputPlugin ()
 
 /**
  * A text input context, representing a connection to the Cocoa text input system.
@@ -150,7 +150,7 @@ static flutter::TextRange RangeFromBaseExtent(NSNumber* base,
 }
 
 - (instancetype)initWithViewController:(FlutterViewController*)viewController {
-  self = [super init];
+  self = [super initWithFrame:NSMakeRect(20,20,100,140)];
   if (self != nil) {
     _channel = [FlutterMethodChannel methodChannelWithName:kTextInputChannel
                                            binaryMessenger:viewController.engine.binaryMessenger
@@ -463,9 +463,9 @@ static flutter::TextRange RangeFromBaseExtent(NSNumber* base,
         CGRectApplyAffineTransform(_caretRect, CATransform3DGetAffineTransform(_editableTransform));
 
     // flip and convert to screen coordinates
-    double viewHeight = self.flutterViewController.view.bounds.size.height;
+    double viewHeight = self.flutterViewController.flutterView.bounds.size.height;
     rect.origin.y = viewHeight - rect.origin.y;
-    return [self.flutterViewController.view.window convertRectToScreen:rect];
+    return [self.flutterViewController.flutterView.window convertRectToScreen:rect];
   } else {
     return CGRectZero;
   }

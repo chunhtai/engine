@@ -6,6 +6,7 @@
 
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterEngine_Internal.h"
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterPlatformNodeDelegateMac.h"
+#import "flutter/shell/platform/darwin/macos/framework/Source/FlutterViewController_Internal.h"
 #include "flutter/shell/platform/embedder/embedder.h"
 
 namespace flutter {
@@ -147,24 +148,41 @@ AccessibilityBridgeMacDelegate::MacOSEventsFromAXEvent(ui::AXEventGenerator::Eve
           .user_info = nil,
       });
       break;
-    case ui::AXEventGenerator::Event::VALUE_CHANGED:
-      events.push_back({
-          .name = NSAccessibilityValueChangedNotification,
-          .target = native_node,
-          .user_info = nil,
-      });
-      if (@available(macOS 10.11, *)) {
-        if (ax_node.data().HasState(ax::mojom::State::kEditable)) {
-          events.push_back({
-              .name = NSAccessibilityValueChangedNotification,
-              .target = bridge->GetFlutterPlatformNodeDelegateFromID(kRootNode)
-                            .lock()
-                            ->GetNativeViewAccessible(),
-              .user_info = nil,
-          });
-        }
-      }
+    case ui::AXEventGenerator::Event::VALUE_CHANGED: {
+      // events.push_back({
+      //     .name = NSAccessibilityValueChangedNotification,
+      //     .target = native_node,
+      //     .user_info = nil,
+      // });
+      // if (@available(macOS 10.11, *)) {
+      //   if (ax_node.data().HasState(ax::mojom::State::kEditable)) {
+      //     events.push_back({
+      //         .name = NSAccessibilityValueChangedNotification,
+      //         .target = bridge->GetFlutterPlatformNodeDelegateFromID(kRootNode)
+      //                       .lock()
+      //                       ->GetNativeViewAccessible(),
+      //         .user_info = nil,
+      //     });
+      //   }
+      // }
+      std::string textddd = mac_platform_node_delegate->GetData().GetStringAttribute(ax::mojom::StringAttribute::kValue);
+      NSLog(@"valu changes %@", @(textddd.data()));
+      id object = mac_platform_node_delegate->GetNativeViewAccessible();
+      [[object window] makeFirstResponder:object];
+      [object setStringValue:@(textddd.data())];
+      // NSAttributedString* str = [[NSAttributedString alloc] initWithString:@"az" attributes:@{
+      //   NSAccessibilityMarkedMisspelledTextAttribute: @(YES),
+      // }];
+      // events.push_back({
+      //         .name = NSAccessibilityAnnouncementRequestedNotification,
+      //         .target = [NSApp mainWindow],
+      //         .user_info = @{
+      //           NSAccessibilityAnnouncementKey: str,
+      //           NSAccessibilityPriorityKey: @(NSAccessibilityPriorityHigh)
+      //         },
+      //     });
       break;
+    }
     case ui::AXEventGenerator::Event::LIVE_REGION_CREATED:
       events.push_back({
           .name = AccessibilityLiveRegionCreatedNotification,
