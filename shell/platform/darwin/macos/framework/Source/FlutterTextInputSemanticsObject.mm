@@ -8,92 +8,47 @@
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterEngine_Internal.h"
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterViewController_Internal.h"
 
+#include "flutter/third_party/accessibility/ax/ax_action_data.h"
 #include "flutter/third_party/accessibility/gfx/mac/coordinate_conversion.h"
 #include "flutter/third_party/accessibility/gfx/geometry/rect_conversions.h"
 
-NSString* const NSFieldEditorKey = @"NSFieldEditor";
-
-// @interface FlutterTextViewDelegate : NSObject<NSTextViewDelegate>
-// @end
-
-// @implementation FlutterTextViewDelegate {
-//   flutter::FlutterTextPlatformNode* _node;
-// }
-
-// - (instancetype)initWithPlatformNode:(flutter::FlutterTextPlatformNode*)node {
-//   self = [super init];
-//   if (self) {
-//     _node = node;
-//   }
-//   return self;
-// }
-
-// - (void)controlTextDidBeginEditing::(NSNotification *)obj {
-//   NSLog(@"controlTextDidBeginEditing %@", obj);
-// }
-
-// - (void)controlTextDidChange:(NSNotification *)obj {
-//   NSLog(@"text has changed %@", obj);
-// }
-
-
-
-// @end
-
-@interface FlutterTextFieldDelegate : NSObject<NSTextFieldDelegate>
-
-// @property(nonatomic, strong, nonnull) FlutterTextFieldDelegate* textFieldDelegate;
-
+@interface FlutterFieldEditor : NSTextView
 @end
 
-@implementation FlutterTextFieldDelegate {
-  flutter::FlutterTextPlatformNode* _node;
+@implementation FlutterFieldEditor {
+  FlutterViewController* _controller;
 }
 
-- (instancetype)initWithPlatformNode:(flutter::FlutterTextPlatformNode*)node {
-  self = [super init];
-  if (self) {
-    _node = node;
+-(instancetype)initWithViewController:(FlutterViewController*)controller {
+  self = [super initWithFrame:NSMakeRect(1,1,1,1)];
+  if(self){
+    _controller = controller;
   }
   return self;
 }
 
-- (void)controlTextDidBeginEditing:(NSNotification*)obj {
-  NSLog(@"controlTextDidBeginEditing %@", obj);
+- (void)keyDown:(NSEvent *)event {
+  [_controller keyDown:event];
+  return;
 }
 
-- (void)controlTextDidChange:(NSNotification*)notification {
-  if (notification) {
-    _node->updateEditingState(notification.userInfo[NSFieldEditorKey]);
-  }
+- (void)keyUp:(NSEvent *)event {
+  [_controller keyUp:event];
+  return;
 }
-
-- (BOOL)control:(NSControl *)control 
-       textView:(NSTextView *)textView 
-doCommandBySelector:(SEL)commandSelector {
-  NSLog(@"control textView, doCommandBySelector");
-  return NO;
-}
-
 
 @end
-
-// @interface FlutterTextField : NSTextField
-
-// @property(nonatomic, strong, nonnull) FlutterTextFieldDelegate* textFieldDelegate;
-
-// @end
 
 @implementation FlutterTextField {
   flutter::FlutterTextPlatformNode* _node;
 }
 
-- (instancetype)initWithPlatformNode:(flutter::FlutterTextPlatformNode*)node {
+- (instancetype)initWithPlatformNode:(flutter::FlutterTextPlatformNode*)node
+                          controller:(FlutterViewController*)controller {
   self = [super initWithFrame:NSZeroRect];
   if (self) {
     _node = node;
-    // _textFieldDelegate = [[FlutterTextFieldDelegate alloc] initWithPlatformNode:node];
-    // self.delegate = _textFieldDelegate;
+    _fieldEditor = [[FlutterFieldEditor alloc] initWithViewController:controller];
   }
   return self;
 }
@@ -102,38 +57,36 @@ doCommandBySelector:(SEL)commandSelector {
   return _node->GetFrame();
 }
 
-- (NSView *)hitTest:(NSPoint)point {
-  return nil;
-}
+- (void)updateTextAndSelection {
+  NSString* textValue = @(_node->GetStringAttribute(ax::mojom::StringAttribute::kValue).data());
+  if (![[self stringValue] isEqualToString:textValue]) {
+    [self setStringValue:textValue];
+  }
 
-// - (BOOL)acceptsFirstResponder {
-//   BOOL result = [super acceptsFirstResponder];
-//   NSLog(@"accept first responder called %d", result);
-//   return NO;
-// }
-
-- (void)keyDown:(NSEvent *)event {
-  NSLog(@"key down");
-  return;
-}
-
-- (void)keyUp:(NSEvent *)event {
-  NSLog(@"key up");
-  return;
-}
-
-- (void)interpretKeyEvents:(NSArray<NSEvent *> *)eventArray {
-  NSLog(@"interpretKeyEvents");
-  return;
-}
-
-- (BOOL)performKeyEquivalent:(NSEvent *)theEvent{
-    NSLog(@"performKeyEquivalent");
-    return YES;
+  int start = _node->GetIntAttribute(ax::mojom::IntAttribute::kTextSelStart);
+  int end = _node->GetIntAttribute(ax::mojom::IntAttribute::kTextSelEnd);
+  _fieldEditor.string = textValue;
+  if (start > 0 && end > 0) {
+    _fieldEditor.selectedRange = NSMakeRange(start, end - start);
+  } else {
+    _fieldEditor.selectedRange = NSMakeRange([self stringValue].length, 0);
+  }
+  NSLog(@"after update text=%@, selection=%@", [self stringValue], NSStringFromRange(_fieldEditor.selectedRange));
 }
 
 - (void)setAccessibilityFocused:(BOOL)isFocused {
   [super setAccessibilityFocused:isFocused];
+  ui::AXActionData data;
+  data.action = isFocused ? ax::mojom::Action::kFocus : ax::mojom::Action::kBlur;
+  _node->GetDelegate()->AccessibilityPerformAction(data);
+}
+
+- (BOOL)becomeFirstResponder {
+  BOOL result = [super becomeFirstResponder];
+  // The default implementation of becomeFirstResponder will select the entire text.
+  // We need to set it back manually.
+  [self updateTextAndSelection];
+  return result;
 }
 
 
@@ -142,17 +95,15 @@ doCommandBySelector:(SEL)commandSelector {
 namespace flutter {
 
 FlutterTextPlatformNode::FlutterTextPlatformNode(FlutterPlatformNodeDelegate* delegate, FlutterEngine* engine) {
-  // native_node_ = [[FlutterTextPlatformNodeCocoa alloc] initWithNode:this
-  //                                                            plugin:plugin];
-
   Init(delegate);
   engine_ = engine;
-  native_text_field_ = [[FlutterTextField alloc] initWithPlatformNode:this];
+  native_text_field_ = [[FlutterTextField alloc] initWithPlatformNode:this controller:engine.viewController];
   native_text_field_.bezeled         = NO;
   native_text_field_.drawsBackground = NO;
   native_text_field_.bordered = NO;
   native_text_field_.focusRingType = NSFocusRingTypeNone;
-  [engine.viewController.view addSubview:native_text_field_];// positioned:NSWindowBelow relativeTo:engine.viewController.flutterView];
+  [native_text_field_ updateTextAndSelection];
+  [engine.viewController.view addSubview:native_text_field_ positioned:NSWindowBelow relativeTo:engine.viewController.flutterView];
 }
 
 FlutterTextPlatformNode::~FlutterTextPlatformNode() {
@@ -186,10 +137,6 @@ NSRect FlutterTextPlatformNode::GetFrame() {
       [engine_.viewController.flutterView convertRectFromBacking:ns_local_bounds];
   return [engine_.viewController.flutterView convertRect:ns_view_bounds
                                                                     toView:nil];
-}
-
-void FlutterTextPlatformNode::updateEditingState(NSTextView* fieldEditor) {
-  NSLog(@"updateEditingState string %@, selection %@", fieldEditor.string, NSStringFromRange(fieldEditor.selectedRange));
 }
 
 }

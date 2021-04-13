@@ -24,11 +24,6 @@
 @property(nonatomic, strong, nonnull) FlutterTextInputPlugin* textInputPlugin;
 
 /**
- * This just returns the NSPasteboard so that it can be mocked in the tests.
- */
-@property(nonatomic, strong, nonnull) NSTextField* textField;
-
-/**
  * Initializes this FlutterViewController with the specified `FlutterEngine`.
  *
  * The initialized viewcontroller will attach itself to the engine as part of this process.

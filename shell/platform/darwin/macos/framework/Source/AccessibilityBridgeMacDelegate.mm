@@ -6,6 +6,7 @@
 
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterEngine_Internal.h"
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterPlatformNodeDelegateMac.h"
+#import "flutter/shell/platform/darwin/macos/framework/Source/FlutterTextInputSemanticsObject.h"
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterViewController_Internal.h"
 #include "flutter/shell/platform/embedder/embedder.h"
 
@@ -118,9 +119,10 @@ AccessibilityBridgeMacDelegate::MacOSEventsFromAXEvent(ui::AXEventGenerator::Eve
       break;
     case ui::AXEventGenerator::Event::DOCUMENT_SELECTION_CHANGED: {
       if (ax_node.data().role == ax::mojom::Role::kTextField) {
-        // For text field, we update the native NSTextField s
-        id native_text_field = mac_platform_node_delegate->GetNativeViewAccessible();
-        [native_text_field updateSelection]
+        // For text field, we update the native NSTextField selection
+        FlutterTextField* native_text_field = (FlutterTextField*)mac_platform_node_delegate->GetNativeViewAccessible();
+        [native_text_field updateTextAndSelection];
+        break;
       }
       // This event always fires at root
       events.push_back({
@@ -154,42 +156,42 @@ AccessibilityBridgeMacDelegate::MacOSEventsFromAXEvent(ui::AXEventGenerator::Eve
       });
       break;
     case ui::AXEventGenerator::Event::VALUE_CHANGED: {
-      // events.push_back({
-      //     .name = NSAccessibilityValueChangedNotification,
-      //     .target = native_node,
-      //     .user_info = nil,
-      // });
-      // if (@available(macOS 10.11, *)) {
-      //   if (ax_node.data().HasState(ax::mojom::State::kEditable)) {
-      //     events.push_back({
-      //         .name = NSAccessibilityValueChangedNotification,
-      //         .target = bridge->GetFlutterPlatformNodeDelegateFromID(kRootNode)
-      //                       .lock()
-      //                       ->GetNativeViewAccessible(),
-      //         .user_info = nil,
-      //     });
-      //   }
-      // }
-      std::string textddd = mac_platform_node_delegate->GetData().GetStringAttribute(ax::mojom::StringAttribute::kValue);
-      NSLog(@"valu changes %@", @(textddd.data()));
-      NSTextField* native_text_field = (NSTextField*)mac_platform_node_delegate->GetNativeViewAccessible();
-      // [[object window] makeFirstResponder:object];
-      [native_text_field setStringValue:@(textddd.data())];
-      NSText* fieldEditor = [native_text_field currentEditor];
-      if (fieldEditor) {
-        
+      if (ax_node.data().role == ax::mojom::Role::kTextField) {
+        // For text field, we update the native NSTextField string value
+        FlutterTextField* native_text_field = (FlutterTextField*)mac_platform_node_delegate->GetNativeViewAccessible();
+        if (native_text_field == mac_platform_node_delegate->GetFocus()) {
+          [native_text_field becomeFirstResponder];
+        }
+        [native_text_field updateTextAndSelection];
+        break;
       }
-      // NSAttributedString* str = [[NSAttributedString alloc] initWithString:@"az" attributes:@{
-      //   NSAccessibilityMarkedMisspelledTextAttribute: @(YES),
-      // }];
-      // events.push_back({
-      //         .name = NSAccessibilityAnnouncementRequestedNotification,
-      //         .target = [NSApp mainWindow],
-      //         .user_info = @{
-      //           NSAccessibilityAnnouncementKey: str,
-      //           NSAccessibilityPriorityKey: @(NSAccessibilityPriorityHigh)
-      //         },
-      //     });
+      events.push_back({
+          .name = NSAccessibilityValueChangedNotification,
+          .target = native_node,
+          .user_info = nil,
+      });
+      if (@available(macOS 10.11, *)) {
+        if (ax_node.data().HasState(ax::mojom::State::kEditable)) {
+          events.push_back({
+              .name = NSAccessibilityValueChangedNotification,
+              .target = bridge->GetFlutterPlatformNodeDelegateFromID(kRootNode)
+                            .lock()
+                            ->GetNativeViewAccessible(),
+              .user_info = nil,
+          });
+        }
+      }
+      NSAttributedString* str = [[NSAttributedString alloc] initWithString:@"az" attributes:@{
+        NSAccessibilityMarkedMisspelledTextAttribute: @(YES),
+      }];
+      events.push_back({
+              .name = NSAccessibilityAnnouncementRequestedNotification,
+              .target = [NSApp mainWindow],
+              .user_info = @{
+                NSAccessibilityAnnouncementKey: str,
+                NSAccessibilityPriorityKey: @(NSAccessibilityPriorityHigh)
+              },
+          });
       break;
     }
     case ui::AXEventGenerator::Event::LIVE_REGION_CREATED:

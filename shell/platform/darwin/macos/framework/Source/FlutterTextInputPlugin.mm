@@ -332,7 +332,10 @@ static flutter::TextRange RangeFromBaseExtent(NSNumber* base,
   if (!_shown) {
     return NO;
   }
-  return [_textInputContext handleEvent:event];
+  [_textInputContext activate];
+  BOOL result = [_textInputContext handleEvent:event];
+  NSLog(@"in textinput plugin handleKeyEvent %@, result =%d", event, result);
+  return result;
 }
 
 #pragma mark -

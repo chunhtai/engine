@@ -12,7 +12,9 @@
 
 @interface FlutterTextField : NSTextField
 
-// @property(nonatomic, strong, nonnull) FlutterTextFieldDelegate* textFieldDelegate;
+@property(nonatomic, strong) NSTextView* fieldEditor;
+
+- (void)updateTextAndSelection;
 
 @end
 
@@ -25,10 +27,9 @@ class FlutterTextPlatformNode : public ui::AXPlatformNodeBase {
   // AXPlatformNodeMac.
   gfx::NativeViewAccessible GetNativeViewAccessible() override;
   NSRect GetFrame();
-  void updateEditingState(NSTextView* _fieldEditor);
  private:
   FlutterEngine* engine_;
-  NSTextField* native_text_field_;
+  FlutterTextField* native_text_field_;
 };
 
 } // namespace flutter

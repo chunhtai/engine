@@ -78,54 +78,15 @@ struct MouseState {
 
 #pragma mark - Private interface declaration.
 
-@interface FlutterNSTextView : NSTextView
-@end
-
-@implementation FlutterNSTextView {
-  FlutterTextField* _textField;
-  NSString* _str;
-}
-
--(instancetype)initWithClient:(FlutterTextField*)client {
-  self = [super initWithFrame:NSMakeRect(1,1,1,1)];
-  if(self){
-    _textField =client;
-    _str = @"aasdasdasdasd";
-  }
-  return self;
-}
-
-- (void)keyDown:(NSEvent *)event {
-  _str = [_str substringToIndex:_str.length -1];//[NSString stringWithFormat: @"%@a", _str];
-  NSLog(@"FlutterNSTextView key down _str = %@, my string %@ ,selected range %@", _str, self.string, NSStringFromRange(self.selectedRange));
-  // self.string = _str;
-  [_textField setStringValue:_str];
-  self.selectedRange = NSMakeRange(_str.length, 0);
-  // [fieldEditor setSelectedRange: mySelRange];
-  return;
-}
-
-- (void)keyUp:(NSEvent *)event {
-  NSLog(@"FlutterNSTextView key up");
-  return;
-}
-
-@end
-
 @interface FlutterWindowDelegate : NSObject<NSWindowDelegate>
 @end
 
-@implementation FlutterWindowDelegate {
-  NSTextView* _textView;
-}
+@implementation FlutterWindowDelegate
 
 - (id)windowWillReturnFieldEditor:(NSWindow *)sender 
                          toObject:(id)client {
   if ([client isKindOfClass:[FlutterTextField class]]) {
-    if (!_textView) {
-      _textView = [[FlutterNSTextView alloc] initWithClient:client];
-    }
-    return _textView;
+    return ((FlutterTextField*)client).fieldEditor;
   }
   return nil;
 }
@@ -152,6 +113,11 @@ struct MouseState {
   [super setFrameSize:newSize];
   [_flutterView setFrameSize:newSize];
 }
+
+- (NSArray*)accessibilityChildren {
+  return @[_flutterView];
+}
+
 @end
 
 /**
@@ -281,11 +247,6 @@ static void CommonInit(FlutterViewController* controller) {
   }
   controller->_mouseTrackingMode = FlutterMouseTrackingModeInKeyWindow;
   controller.textInputPlugin = [[FlutterTextInputPlugin alloc] initWithViewController:controller];
-  NSRect frameRect = NSMakeRect(20,20,100,140);
-  controller.textField = [[NSTextField alloc] initWithFrame:frameRect];
-  controller.textField.textColor = NSColor.redColor;
-  // controller.textField.bezeled         = NO;
-  // controller.textField.drawsBackground = NO;
   NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
   // macOS fires this private message when voiceover turns on or off.
   [center addObserver:controller
@@ -365,14 +326,12 @@ static void CommonInit(FlutterViewController* controller) {
   }
   FlutterContentView* parent = [[FlutterContentView alloc] initWithFlutterView:flutterView];
   [parent addSubview:flutterView];
-  // [parent addSubview:self.textField];
   self.view = parent;
   self.flutterView = flutterView;
 }
 
 - (void)viewDidLoad {
   FlutterAppDelegate* appDelegate = (FlutterAppDelegate*)[NSApp delegate];
-  NSLog(@"appDelegate.mainFlutterWindow = %@", appDelegate.mainFlutterWindow);
   self.windowDelegate = [[FlutterWindowDelegate alloc] init];
   appDelegate.mainFlutterWindow.delegate = _windowDelegate;
   [self configureTrackingArea];
