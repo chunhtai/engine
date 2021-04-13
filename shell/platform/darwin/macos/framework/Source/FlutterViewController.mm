@@ -5,6 +5,7 @@
 #import "flutter/shell/platform/darwin/macos/framework/Headers/FlutterViewController.h"
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterViewController_Internal.h"
 
+#import "flutter/shell/platform/darwin/macos/framework/Headers/FlutterAppDelegate.h"
 #import "flutter/shell/platform/darwin/common/framework/Headers/FlutterChannels.h"
 #import "flutter/shell/platform/darwin/common/framework/Headers/FlutterCodecs.h"
 #import "flutter/shell/platform/darwin/macos/framework/Headers/FlutterEngine.h"
@@ -17,6 +18,7 @@
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterMouseCursorPlugin.h"
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterOpenGLRenderer.h"
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterRenderingBackend.h"
+#import "flutter/shell/platform/darwin/macos/framework/Source/FlutterTextInputSemanticsObject.h"
 #import "flutter/shell/platform/darwin/macos/framework/Source/FlutterView.h"
 #import "flutter/shell/platform/embedder/embedder.h"
 
@@ -76,6 +78,61 @@ struct MouseState {
 
 #pragma mark - Private interface declaration.
 
+@interface FlutterNSTextView : NSTextView
+@end
+
+@implementation FlutterNSTextView {
+  FlutterTextField* _textField;
+  NSString* _str;
+}
+
+-(instancetype)initWithClient:(FlutterTextField*)client {
+  self = [super initWithFrame:NSMakeRect(1,1,1,1)];
+  if(self){
+    _textField =client;
+    _str = @"aasdasdasdasd";
+  }
+  return self;
+}
+
+- (void)keyDown:(NSEvent *)event {
+  _str = [_str substringToIndex:_str.length -1];//[NSString stringWithFormat: @"%@a", _str];
+  NSLog(@"FlutterNSTextView key down _str = %@, my string %@ ,selected range %@", _str, self.string, NSStringFromRange(self.selectedRange));
+  // self.string = _str;
+  [_textField setStringValue:_str];
+  self.selectedRange = NSMakeRange(_str.length, 0);
+  // [fieldEditor setSelectedRange: mySelRange];
+  return;
+}
+
+- (void)keyUp:(NSEvent *)event {
+  NSLog(@"FlutterNSTextView key up");
+  return;
+}
+
+@end
+
+@interface FlutterWindowDelegate : NSObject<NSWindowDelegate>
+@end
+
+@implementation FlutterWindowDelegate {
+  NSTextView* _textView;
+}
+
+- (id)windowWillReturnFieldEditor:(NSWindow *)sender 
+                         toObject:(id)client {
+  if ([client isKindOfClass:[FlutterTextField class]]) {
+    if (!_textView) {
+      _textView = [[FlutterNSTextView alloc] initWithClient:client];
+    }
+    return _textView;
+  }
+  return nil;
+}
+
+@end
+
+
 @interface FlutterContentView : NSView
 @end
 
@@ -121,6 +178,8 @@ struct MouseState {
  * TODO
  */
 @property(nonatomic) FlutterKeyboardManager* keyboardManager;
+
+@property(nonatomic) FlutterWindowDelegate* windowDelegate;
 
 /**
  * Starts running |engine|, including any initial setup.
@@ -196,6 +255,7 @@ struct MouseState {
 @end
 
 #pragma mark - FlutterViewController implementation.
+
 
 @implementation FlutterViewController {
   // The project to run in this controller's engine.
@@ -311,6 +371,10 @@ static void CommonInit(FlutterViewController* controller) {
 }
 
 - (void)viewDidLoad {
+  FlutterAppDelegate* appDelegate = (FlutterAppDelegate*)[NSApp delegate];
+  NSLog(@"appDelegate.mainFlutterWindow = %@", appDelegate.mainFlutterWindow);
+  self.windowDelegate = [[FlutterWindowDelegate alloc] init];
+  appDelegate.mainFlutterWindow.delegate = _windowDelegate;
   [self configureTrackingArea];
 }
 

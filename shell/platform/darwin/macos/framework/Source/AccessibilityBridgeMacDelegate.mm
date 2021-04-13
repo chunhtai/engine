@@ -117,6 +117,11 @@ AccessibilityBridgeMacDelegate::MacOSEventsFromAXEvent(ui::AXEventGenerator::Eve
       }
       break;
     case ui::AXEventGenerator::Event::DOCUMENT_SELECTION_CHANGED: {
+      if (ax_node.data().role == ax::mojom::Role::kTextField) {
+        // For text field, we update the native NSTextField s
+        id native_text_field = mac_platform_node_delegate->GetNativeViewAccessible();
+        [native_text_field updateSelection]
+      }
       // This event always fires at root
       events.push_back({
           .name = NSAccessibilitySelectedTextChangedNotification,
@@ -167,9 +172,13 @@ AccessibilityBridgeMacDelegate::MacOSEventsFromAXEvent(ui::AXEventGenerator::Eve
       // }
       std::string textddd = mac_platform_node_delegate->GetData().GetStringAttribute(ax::mojom::StringAttribute::kValue);
       NSLog(@"valu changes %@", @(textddd.data()));
-      id object = mac_platform_node_delegate->GetNativeViewAccessible();
-      [[object window] makeFirstResponder:object];
-      [object setStringValue:@(textddd.data())];
+      NSTextField* native_text_field = (NSTextField*)mac_platform_node_delegate->GetNativeViewAccessible();
+      // [[object window] makeFirstResponder:object];
+      [native_text_field setStringValue:@(textddd.data())];
+      NSText* fieldEditor = [native_text_field currentEditor];
+      if (fieldEditor) {
+        
+      }
       // NSAttributedString* str = [[NSAttributedString alloc] initWithString:@"az" attributes:@{
       //   NSAccessibilityMarkedMisspelledTextAttribute: @(YES),
       // }];

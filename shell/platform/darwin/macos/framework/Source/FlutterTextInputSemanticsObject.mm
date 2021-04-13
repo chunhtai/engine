@@ -68,15 +68,21 @@ NSString* const NSFieldEditorKey = @"NSFieldEditor";
   }
 }
 
+- (BOOL)control:(NSControl *)control 
+       textView:(NSTextView *)textView 
+doCommandBySelector:(SEL)commandSelector {
+  NSLog(@"control textView, doCommandBySelector");
+  return NO;
+}
 
 
 @end
 
-@interface FlutterTextField : NSTextField
+// @interface FlutterTextField : NSTextField
 
-@property(nonatomic, strong, nonnull) FlutterTextFieldDelegate* textFieldDelegate;
+// @property(nonatomic, strong, nonnull) FlutterTextFieldDelegate* textFieldDelegate;
 
-@end
+// @end
 
 @implementation FlutterTextField {
   flutter::FlutterTextPlatformNode* _node;
@@ -86,8 +92,8 @@ NSString* const NSFieldEditorKey = @"NSFieldEditor";
   self = [super initWithFrame:NSZeroRect];
   if (self) {
     _node = node;
-    _textFieldDelegate = [[FlutterTextFieldDelegate alloc] initWithPlatformNode:node];
-    self.delegate = _textFieldDelegate;
+    // _textFieldDelegate = [[FlutterTextFieldDelegate alloc] initWithPlatformNode:node];
+    // self.delegate = _textFieldDelegate;
   }
   return self;
 }
@@ -98,6 +104,32 @@ NSString* const NSFieldEditorKey = @"NSFieldEditor";
 
 - (NSView *)hitTest:(NSPoint)point {
   return nil;
+}
+
+// - (BOOL)acceptsFirstResponder {
+//   BOOL result = [super acceptsFirstResponder];
+//   NSLog(@"accept first responder called %d", result);
+//   return NO;
+// }
+
+- (void)keyDown:(NSEvent *)event {
+  NSLog(@"key down");
+  return;
+}
+
+- (void)keyUp:(NSEvent *)event {
+  NSLog(@"key up");
+  return;
+}
+
+- (void)interpretKeyEvents:(NSArray<NSEvent *> *)eventArray {
+  NSLog(@"interpretKeyEvents");
+  return;
+}
+
+- (BOOL)performKeyEquivalent:(NSEvent *)theEvent{
+    NSLog(@"performKeyEquivalent");
+    return YES;
 }
 
 - (void)setAccessibilityFocused:(BOOL)isFocused {

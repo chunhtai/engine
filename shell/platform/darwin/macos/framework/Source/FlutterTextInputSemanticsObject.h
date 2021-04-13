@@ -9,7 +9,12 @@
 
 #include "flutter/third_party/accessibility/ax/platform/ax_platform_node_base.h"
 
-@class FlutterTextPlatformNodeCocoa;
+
+@interface FlutterTextField : NSTextField
+
+// @property(nonatomic, strong, nonnull) FlutterTextFieldDelegate* textFieldDelegate;
+
+@end
 
 namespace flutter {
 
@@ -27,4 +32,3 @@ class FlutterTextPlatformNode : public ui::AXPlatformNodeBase {
 };
 
 } // namespace flutter
-
