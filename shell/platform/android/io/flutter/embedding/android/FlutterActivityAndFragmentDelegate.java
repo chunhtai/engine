@@ -31,6 +31,8 @@ import io.flutter.embedding.engine.dart.DartExecutor;
 import io.flutter.embedding.engine.renderer.FlutterUiDisplayListener;
 import io.flutter.plugin.platform.PlatformPlugin;
 import io.flutter.util.ViewUtils;
+
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
@@ -517,17 +519,8 @@ import java.util.List;
   private String maybeGetInitialRouteFromIntent(Intent intent) {
     if (host.shouldHandleDeeplinking()) {
       Uri data = intent.getData();
-      if (data != null) {
-        String fullRoute = data.getPath();
-        if (fullRoute != null && !fullRoute.isEmpty()) {
-          if (data.getQuery() != null && !data.getQuery().isEmpty()) {
-            fullRoute += "?" + data.getQuery();
-          }
-          if (data.getFragment() != null && !data.getFragment().isEmpty()) {
-            fullRoute += "#" + data.getFragment();
-          }
-          return fullRoute;
-        }
+      if (data != null && data.getPath() != null) {
+        return data.toString();
       }
     }
     return null;
@@ -833,7 +826,7 @@ import java.util.List;
       flutterEngine.getActivityControlSurface().onNewIntent(intent);
       String initialRoute = maybeGetInitialRouteFromIntent(intent);
       if (initialRoute != null && !initialRoute.isEmpty()) {
-        flutterEngine.getNavigationChannel().pushRoute(initialRoute);
+        flutterEngine.getNavigationChannel().pushRouteInformation(initialRoute);
       }
     } else {
       Log.w(TAG, "onNewIntent() invoked before FlutterFragment was attached to an Activity.");

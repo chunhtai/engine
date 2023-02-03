@@ -38,7 +38,7 @@ public class NavigationChannel {
     channel.invokeMethod("setInitialRoute", initialRoute);
   }
 
-  public void pushRoute(@NonNull String route) {
+  public void pushRouteInformation(@NonNull String route) {
     Log.v(TAG, "Sending message to push route '" + route + "'");
     channel.invokeMethod("pushRoute", route);
   }
