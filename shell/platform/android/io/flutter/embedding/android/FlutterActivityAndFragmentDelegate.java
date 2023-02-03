@@ -31,8 +31,6 @@ import io.flutter.embedding.engine.dart.DartExecutor;
 import io.flutter.embedding.engine.renderer.FlutterUiDisplayListener;
 import io.flutter.plugin.platform.PlatformPlugin;
 import io.flutter.util.ViewUtils;
-
-import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
