@@ -439,7 +439,7 @@ class ClangFormatChecker extends FormatChecker {
       } else {
         error('Found ${failed.length} C++/ObjC/Shader file${plural ? 's' : ''}'
             ' which ${plural ? 'were' : 'was'} formatted incorrectly.');
-        stdout.writeln('To fix, run `et format` or:');
+        stdout.writeln('To fix, run `bin/et format` from the engine root or:');
         stdout.writeln();
         stdout.writeln('git apply <<DONE');
         for (final WorkerJob job in failed) {
@@ -635,7 +635,7 @@ class JavaFormatChecker extends FormatChecker {
       } else {
         error('Found ${failed.length} Java file${plural ? 's' : ''}'
             ' which ${plural ? 'were' : 'was'} formatted incorrectly.');
-        stdout.writeln('To fix, run `et format` or:');
+        stdout.writeln('To fix, run `bin/et format` from the engine root or:');
         stdout.writeln();
         stdout.writeln('git apply <<DONE');
         for (final WorkerJob job in failed) {
@@ -768,7 +768,7 @@ class GnFormatChecker extends FormatChecker {
       } else {
         error('Found ${failed.length} GN file${plural ? 's' : ''}'
             ' which ${plural ? 'were' : 'was'} formatted incorrectly.');
-        stdout.writeln('To fix, run `et format` or:');
+        stdout.writeln('To fix, run `bin/et format` from the engine root or:');
         stdout.writeln();
         stdout.writeln('git apply <<DONE');
         for (final WorkerJob job in failed) {
@@ -863,7 +863,7 @@ class PythonFormatChecker extends FormatChecker {
       } else {
         error('Found ${incorrect.length} python file${plural ? 's' : ''}'
             ' which ${plural ? 'were' : 'was'} formatted incorrectly:');
-        stdout.writeln('To fix, run `et format` or:');
+        stdout.writeln('To fix, run `bin/et format` from the engine root or:');
         stdout.writeln();
         stdout.writeln('git apply <<DONE');
         incorrect.forEach(stdout.writeln);
